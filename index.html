@@ -780,11 +780,7 @@ footer .brand{color:var(--gold);}
   <div class="bg-clouds">
     <svg width="100%" height="100%" viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="glow1" cx="50%" cy="30%"><stop offset="0%" stop-color="#F0C040" stop-opacity=".07"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-        <radialGradient id="glow2" cx="50%" cy="60%"><stop offset="0%" stop-color="#C86018" stop-opacity=".09"/><stop offset="100%" stop-color="transparent"/></radialGradient>
       </defs>
-      <ellipse cx="400" cy="300" rx="500" ry="300" fill="url(#glow1)"/>
-      <ellipse cx="400" cy="900" rx="600" ry="400" fill="url(#glow2)"/>
       <!-- 祥云组 -->
       <g fill="rgba(250,240,220,.08)" style="animation:cloudDrift 8s ease-in-out infinite alternate">
         <path d="M60,120 Q80,95 110,100 Q100,75 130,72 Q160,69 165,92 Q190,85 195,108 Q210,115 205,132 Q185,145 155,140 Q150,158 120,155 Q90,158 80,140 Q55,138 60,120Z"/>
@@ -1945,7 +1941,7 @@ renderQ();renderLB();
 
   function mkFrag(){
     const type = TYPES[Math.floor(Math.random()*TYPES.length)];
-    const size = type==='petal' ? Math.random()*7+6 : Math.random()*5+4;
+    const size = type==='petal' ? Math.random()*9+7 : Math.random()*6+5;
     return {
       type, size,
       x:        Math.random()*W,
