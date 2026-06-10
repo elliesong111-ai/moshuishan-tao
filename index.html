@@ -1945,25 +1945,24 @@ renderQ();renderLB();
 
   function mkFrag(){
     const type  = SHAPES[Math.floor(Math.random()*SHAPES.length)];
-    const size  = Math.random()*10 + 4;
+    const size  = Math.random()*6 + 3;
     return {
       type,
       x:  Math.random()*W,
       y:  Math.random()*H,
-      vx: (Math.random()-.5)*.35,
-      vy: -(Math.random()*.5+.15),
+      vx: (Math.random()-.5)*.18,
+      vy: -(Math.random()*.25+.08),
       rot:  Math.random()*Math.PI*2,
-      vrot: (Math.random()-.5)*.012,
+      vrot: (Math.random()-.5)*.006,
       size,
       alpha: 0,
-      maxA: Math.random()*.35+.08,
+      maxA: Math.random()*.14+.04,
       fadeIn: true,
       phase: Math.random()*Math.PI*2,
     };
   }
 
-  const frags = Array.from({length:80}, mkFrag);
-  // 随机分布初始Y
+  const frags = Array.from({length:28}, mkFrag);
   frags.forEach(f=>{ f.y = Math.random()*H; f.alpha = f.maxA*Math.random(); f.fadeIn=false; });
 
   // 根据滚动位置判断当前区域亮度
@@ -2024,7 +2023,7 @@ renderQ();renderLB();
 
     frags.forEach((f,i)=>{
       // 漂浮
-      f.x  += f.vx + Math.sin(t*.018+f.phase)*.22;
+      f.x  += f.vx + Math.sin(t*.012+f.phase)*.1;
       f.y  += f.vy;
       f.rot+= f.vrot;
 
