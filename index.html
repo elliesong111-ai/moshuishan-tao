@@ -1936,12 +1936,12 @@ renderQ();renderLB();
   resize();
   window.addEventListener('resize', resize);
 
-  // 只保留飘叶和飘花
-  const TYPES = ['leaf','petal'];
+  // 花瓣为主，偶尔飘叶
+  const TYPES = ['petal','petal','petal','leaf'];
 
   function mkFrag(){
     const type = TYPES[Math.floor(Math.random()*TYPES.length)];
-    const size = type==='petal' ? Math.random()*5+3 : Math.random()*6+5;
+    const size = type==='petal' ? Math.random()*9+7 : Math.random()*6+5;
     return {
       type, size,
       x:        Math.random()*W,
@@ -1949,9 +1949,9 @@ renderQ();renderLB();
       vx:       (Math.random()-.5)*.2,
       vy:       Math.random()*.28+.1,
       rot:      Math.random()*Math.PI*2,
-      vrot:     (Math.random()-.5)*.014,
+      vrot:     (Math.random()-.5)*.022,
       alpha:    0,
-      maxA:     type==='petal' ? Math.random()*.45+.25 : Math.random()*.35+.18,
+      maxA:     type==='petal' ? Math.random()*.35+.18 : Math.random()*.28+.12,
       fadeIn:   true,
       phase:    Math.random()*Math.PI*2,
       swing:    Math.random()*.3+.15,
