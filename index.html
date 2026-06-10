@@ -1945,24 +1945,24 @@ renderQ();renderLB();
 
   function mkFrag(){
     const type = TYPES[Math.floor(Math.random()*TYPES.length)];
-    const size = Math.random()*7+5;
+    const size = Math.random()*4+3;
     return {
       type, size,
       x:   Math.random()*W,
       y:   Math.random()*H,
-      vx:  (Math.random()-.5)*.28,
-      vy:  Math.random()*.4+.15,   // 向下飘落
+      vx:  (Math.random()-.5)*.18,
+      vy:  Math.random()*.22+.08,
       rot:  Math.random()*Math.PI*2,
-      vrot: (Math.random()-.5)*.018,
+      vrot: (Math.random()-.5)*.012,
       alpha: 0,
-      maxA: Math.random()*.38+.15,
+      maxA: Math.random()*.18+.08,
       fadeIn: true,
       phase: Math.random()*Math.PI*2,
-      swing: Math.random()*.4+.2,  // 摇摆幅度
+      swing: Math.random()*.25+.1,
     };
   }
 
-  const frags = Array.from({length:45}, mkFrag);
+  const frags = Array.from({length:30}, mkFrag);
   frags.forEach(f=>{ f.y=Math.random()*H; f.alpha=f.maxA*(.3+Math.random()*.7); f.fadeIn=false; });
 
   function lerp(a,b,t){ return a+(b-a)*t; }
