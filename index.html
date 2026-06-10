@@ -2016,69 +2016,123 @@ function genInvCard(){
   cx.fillText('扫码进群 · 第一时间收到购买链接',w/2,184);
 }
 
-// ══ 邀请系统 ══
+// ══ 邀请系统（Firebase Realtime Database）══
 (function(){
-  let uid=localStorage.getItem('zyt_uid');
-  if(!uid){
-    uid='M'+Date.now().toString(36).slice(-4).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();
-    localStorage.setItem('zyt_uid',uid);
-  }
-  window._myUid=uid;
-  const codeEl=document.getElementById('myCode');
-  if(codeEl) codeEl.textContent=uid;
+  const FB = 'https://moshuishantao-default-rtdb.firebaseio.com';
 
+  // 生成/获取唯一用户ID
+  let uid = localStorage.getItem('zyt_uid');
+  if(!uid){
+    uid = 'M' + Date.now().toString(36).slice(-4).toUpperCase()
+            + Math.random().toString(36).slice(2,5).toUpperCase();
+    localStorage.setItem('zyt_uid', uid);
+  }
+  window._myUid = uid;
+
+  const codeEl = document.getElementById('myCode');
+  if(codeEl) codeEl.textContent = uid;
+
+  // 进度刷新
   function refreshInvProgress(){
-    const n=invs, pct=Math.min(n/3*100,100);
-    const fillEl=document.getElementById('invPbFill');
-    const ctEl=document.getElementById('invCountShow');
-    if(fillEl) fillEl.style.width=pct+'%';
-    if(ctEl) ctEl.textContent=n+' / 3 人';
+    const n = invs, pct = Math.min(n/3*100, 100);
+    const fillEl = document.getElementById('invPbFill');
+    const ctEl   = document.getElementById('invCountShow');
+    if(fillEl) fillEl.style.width = pct + '%';
+    if(ctEl)   ctEl.textContent   = n + ' / 3 人';
     [0,1,2,3].forEach(i=>{
-      const b=document.getElementById('invB'+i);
-      if(!b)return;
+      const b = document.getElementById('invB'+i);
+      if(!b) return;
       b.classList.remove('done','active-badge');
-      if(i===0||i<=n) b.classList.add('done');
+      if(i===0 || i<=n) b.classList.add('done');
       else if(i===Math.min(n+1,3)) b.classList.add('active-badge');
     });
   }
   refreshInvProgress();
-  window._refreshInvProgress=refreshInvProgress;
+  window._refreshInvProgress = refreshInvProgress;
 
-  const urlRef=new URLSearchParams(location.search).get('ref');
-  if(urlRef&&urlRef!==uid){
-    const seenKey='zyt_seen_'+urlRef;
-    if(!localStorage.getItem(seenKey)){
-      localStorage.setItem(seenKey,'1');
-      setTimeout(()=>{
-        addPts(10);pop(10);
-        document.getElementById('refWelcome').style.display='block';
-        invs=Math.min(invs+1,99);
-        localStorage.setItem('zyt_i',invs);
+  // ── Firebase 读写 ──
+  async function fbGet(path){
+    const r = await fetch(`${FB}/${path}.json`);
+    return r.json();
+  }
+  async function fbSet(path, data){
+    await fetch(`${FB}/${path}.json`,{
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+  }
+
+  // ── 同步我的邀请积分（页面加载时）──
+  async function syncMyScore(){
+    try{
+      const data = await fbGet('invites/'+uid);
+      if(!data) return;
+      const fbCount = data.count || 0;
+      const fbPts   = data.pts   || 0;
+      // 更新邀请人数
+      if(fbCount > invs){
+        invs = fbCount;
+        localStorage.setItem('zyt_i', invs);
         refreshInvProgress();
-        addPts(20);
-        if(invs>=3)badge('🌸 仙桃');
-      },1800);
+        if(invs >= 3) badge('🌸 仙桃');
+      }
+      // 补发积分差额
+      const synced = parseInt(localStorage.getItem('zyt_fb_pts')||'0');
+      if(fbPts > synced){
+        const diff = fbPts - synced;
+        addPts(diff); pop(diff);
+        localStorage.setItem('zyt_fb_pts', fbPts);
+      }
+    }catch(e){}
+  }
+  syncMyScore();
+
+  // ── 被邀请：给邀请人加分 ──
+  const urlRef = new URLSearchParams(location.search).get('ref');
+  if(urlRef && urlRef !== uid){
+    const seenKey = 'zyt_seen_' + urlRef;
+    if(!localStorage.getItem(seenKey)){
+      localStorage.setItem(seenKey, '1');
+      // 读取邀请人当前数据，累加后写回
+      fbGet('invites/'+urlRef).then(existing=>{
+        const cur = existing || {count:0, pts:0};
+        const newCount = Math.min((cur.count||0)+1, 200);
+        const newPts   = Math.min((cur.pts||0)+20,  4000);
+        return fbSet('invites/'+urlRef, {count:newCount, pts:newPts});
+      }).then(()=>{
+        // 给访客 +10 欢迎积分
+        setTimeout(()=>{
+          addPts(10); pop(10);
+          document.getElementById('refWelcome').style.display = 'block';
+        }, 1200);
+      }).catch(()=>{});
     }
   }
 
-  window.copyCode=function(){
-    const url=location.href.split('?')[0]+'?ref='+window._myUid;
+  // ── 复制邀请链接 ──
+  window.copyCode = function(){
+    const base = location.href.split('?')[0];
+    const url  = (base.includes('github.io') ? base : 'https://elliesong111-ai.github.io/moshuishan-tao/')
+                 + '?ref=' + uid;
     navigator.clipboard.writeText(url).then(()=>{
-      const btn=document.querySelector('.inv-copy-btn');
-      btn.textContent='✓ 已复制！';btn.classList.add('copied');
-      setTimeout(()=>{btn.textContent='复制邀请码';btn.classList.remove('copied');},2000);
-    }).catch(()=>{prompt('复制此邀请链接：',location.href.split('?')[0]+'?ref='+window._myUid);});
+      const btn = document.querySelector('.inv-copy-btn');
+      btn.textContent = '✓ 已复制！'; btn.classList.add('copied');
+      setTimeout(()=>{ btn.textContent='复制邀请码'; btn.classList.remove('copied'); }, 2000);
+    }).catch(()=>{ prompt('复制此邀请链接：', url); });
   };
 
-  window.shareInvite=function(){
+  // ── 分享 ──
+  window.shareInvite = function(){
     genInvCard();
-    const url=location.href.split('?')[0]+'?ref='+window._myUid;
-    const txt='我在磨水山桃仙境等你！来自山西磨水山、白云寺旁的千年灵桃即将开售，先来测测缘分 👉 '+url;
-    if(navigator.share){navigator.share({title:'磨水山桃·千年记',text:txt,url});}
-    else{navigator.clipboard.writeText(txt).then(()=>alert('✅ 邀请内容已复制，去发给好友吧！')).catch(()=>prompt('复制此内容：',txt));}
+    const base = location.href.split('?')[0];
+    const url  = (base.includes('github.io') ? base : 'https://elliesong111-ai.github.io/moshuishan-tao/')
+                 + '?ref=' + uid;
+    const txt  = '我在磨水山桃仙境等你！山西磨水山、白云寺旁千年灵桃即将开售，先来测测缘分 👉 ' + url;
+    if(navigator.share){ navigator.share({title:'磨水山桃·千年记', text:txt, url}); }
+    else{ navigator.clipboard.writeText(txt).then(()=>alert('✅ 已复制，去发给好友！')).catch(()=>prompt('复制内容：',txt)); }
   };
 
-  window.closeRefWelcome=function(){document.getElementById('refWelcome').style.display='none';};
+  window.closeRefWelcome = function(){ document.getElementById('refWelcome').style.display='none'; };
 })();
 
 // ── 排行榜 ──
