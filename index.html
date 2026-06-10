@@ -400,6 +400,106 @@ nav{
 .btn-ink:hover{opacity:.88;}
 
 /* ─ 邀请 ─ */
+/* ══ 邀请专区 ══ */
+#invite-zone{
+  background:var(--cream);padding:80px 0 60px;position:relative;
+}
+#invite-zone::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--red),var(--gold),var(--red),transparent);
+}
+.inv-zone-wrap{
+  max-width:500px;margin:0 auto;padding:0 20px;
+  display:flex;flex-direction:column;gap:20px;
+}
+
+/* 邀请码框 */
+.inv-code-box{
+  background:linear-gradient(135deg,#7B1A28,#9B2335);
+  border:1px solid rgba(212,149,10,.4);
+  padding:24px 20px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.inv-code-box::after{content:'🍑';position:absolute;right:-8px;bottom:-8px;font-size:80px;opacity:.07;}
+.inv-code-label{color:rgba(250,240,220,.55);font-size:11px;letter-spacing:4px;margin-bottom:12px;}
+.inv-code-num{
+  font-size:clamp(26px,7vw,40px);font-weight:900;
+  color:var(--gold2);letter-spacing:6px;
+  text-shadow:0 0 20px rgba(240,192,64,.4);
+  margin-bottom:16px;font-family:monospace;
+}
+.inv-copy-btn{
+  padding:9px 28px;border:1px solid rgba(240,192,64,.5);
+  background:rgba(240,192,64,.1);color:var(--gold2);
+  font-family:inherit;font-size:12px;letter-spacing:3px;
+  cursor:pointer;transition:all .25s;font-weight:600;
+}
+.inv-copy-btn:hover{background:rgba(240,192,64,.2);border-color:var(--gold2);}
+.inv-copy-btn.copied{background:rgba(74,144,100,.2);border-color:#4A9064;color:#4A9064;}
+
+/* 进度条 */
+.inv-progress-box{
+  background:rgba(255,252,246,.95);border:1px solid rgba(212,149,10,.2);padding:18px;
+}
+.inv-pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.inv-pb-label{font-size:12px;color:var(--gold);letter-spacing:2px;}
+.inv-pb-num{font-size:14px;font-weight:700;color:var(--red);}
+.inv-pb-track{height:6px;background:rgba(155,35,53,.1);border-radius:3px;overflow:hidden;margin-bottom:12px;}
+.inv-pb-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:3px;transition:width .6s cubic-bezier(.16,1,.3,1);}
+.inv-pb-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.inv-pb-badge{
+  padding:4px 10px;font-size:11px;border-radius:20px;letter-spacing:1px;
+  background:rgba(28,16,8,.06);color:rgba(28,16,8,.45);border:1px solid rgba(28,16,8,.08);
+}
+.inv-pb-badge.done{background:rgba(74,144,100,.1);color:#3A6030;border-color:#4A9064;}
+.inv-pb-badge.active-badge{background:rgba(155,35,53,.08);color:var(--red);border-color:rgba(155,35,53,.3);font-weight:700;}
+
+/* 邀请卡 */
+.inv-card-section{display:flex;flex-direction:column;align-items:center;gap:12px;}
+#invCanvas{
+  border:1px solid rgba(212,149,10,.3);
+  box-shadow:3px 3px 18px rgba(26,12,4,.12);
+  display:block;max-width:100%;
+}
+.inv-card-actions{display:flex;gap:10px;width:100%;}
+.inv-card-actions .btn-ink{flex:1;}
+
+/* 说明 */
+.inv-how{
+  background:rgba(255,252,246,.9);border:1px solid rgba(212,149,10,.15);padding:16px;
+}
+.inv-how-item{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 0;border-bottom:1px dashed rgba(28,16,8,.07);
+  font-size:13px;color:var(--ink2);line-height:1.5;
+}
+.inv-how-item:last-child{border:none;}
+.inv-how-n{
+  flex:0 0 22px;height:22px;
+  background:var(--red);color:white;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+}
+
+/* 被邀请弹窗 */
+.ref-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:8000;}
+.ref-modal{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:8001;width:min(88vw,360px);
+  background:linear-gradient(160deg,#7B1A28,#9B2335);
+  border:1px solid rgba(212,149,10,.4);
+  padding:32px 24px;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.ref-modal-top{font-size:52px;margin-bottom:12px;}
+.ref-modal-title{color:var(--gold2);font-size:22px;font-weight:900;letter-spacing:4px;margin-bottom:6px;}
+.ref-modal-sub{color:rgba(250,240,220,.6);font-size:12px;letter-spacing:2px;margin-bottom:16px;}
+.ref-modal-body{
+  color:rgba(250,240,220,.85);font-size:14px;line-height:1.9;letter-spacing:.5px;
+  background:rgba(0,0,0,.2);padding:14px;border-left:3px solid var(--gold);margin-bottom:4px;
+}
+.ref-modal-body strong{color:var(--gold2);}
+
 .inv-wrap{max-width:460px;margin:0 auto;}
 
 /* 邀请卡画布 */
@@ -1401,7 +1501,6 @@ footer .brand{color:var(--gold);}
   <div class="gtabs">
     <button class="gtab act" onclick="switchG(0)">📖 桃花源试炼</button>
     <button class="gtab"     onclick="switchG(1)">💧 高僧挑水</button>
-    <button class="gtab"     onclick="switchG(2)">🎋 广邀仙客</button>
   </div>
 
   <!-- 问答 -->
@@ -1443,33 +1542,74 @@ footer .brand{color:var(--gold);}
     </div>
   </div>
 
-  <!-- 邀请 -->
-  <div class="gp" id="gp2">
-    <div class="inv-wrap">
-      <div class="inv-info">
-        <div class="inv-t">蟠桃仙境·邀请函</div>
-        <div class="inv-s">优利康果园 · 黄金蟠桃预售</div>
-        <div style="color:rgba(250,240,220,.75);font-size:13px">你的好友邀请你来抢蟠桃大会席位</div>
-        <div class="inv-bar"><div class="inv-bar-f" id="invF" style="width:0%"></div></div>
-        <div class="inv-bar-t" id="invT">已邀请 0/3 人，邀满3人解锁 🌸 仙桃称号</div>
-      </div>
+</section>
 
-      <!-- 邀请卡画布 -->
-      <canvas id="invCanvas" width="320" height="200" style="display:none;margin-bottom:14px;border:1px solid rgba(212,149,10,.3);box-shadow:3px 3px 18px rgba(26,12,4,.12);"></canvas>
+<!-- ══════════════════════════════════
+     邀请专区
+══════════════════════════════════ -->
+<section id="invite-zone">
+  <div class="sec-hd">
+    <div class="sec-eyebrow">邀请好友</div>
+    <div class="sec-title">广邀仙客·共赴仙境</div>
+    <div class="sec-sub">好友扫码/点链接自动加分 · 邀满3人解锁🌸仙桃称号</div>
+  </div>
 
-      <div class="inv-steps">
-        <div class="inv-step"><div class="inv-sn">1</div><div>点击「生成邀请卡」，生成你的专属国画风邀请图</div></div>
-        <div class="inv-step"><div class="inv-sn">2</div><div>长按保存图片，分享到微信好友或朋友圈</div></div>
-        <div class="inv-step"><div class="inv-sn">3</div><div>好友参与并完成问答，你获得 <strong>+20积分</strong></div></div>
+  <div class="inv-zone-wrap">
+
+    <!-- 我的邀请码 -->
+    <div class="inv-code-box">
+      <div class="inv-code-label">我的专属邀请码</div>
+      <div class="inv-code-num" id="myCode">加载中…</div>
+      <button class="inv-copy-btn" onclick="copyCode()">复制邀请码</button>
+    </div>
+
+    <!-- 进度 -->
+    <div class="inv-progress-box">
+      <div class="inv-pb-top">
+        <span class="inv-pb-label">邀请进度</span>
+        <span class="inv-pb-num" id="invCountShow">0 / 3 人</span>
       </div>
-      <div class="inv-actions">
-        <button class="btn-ink" onclick="genInvCard()">生成专属邀请卡 🎋</button>
-        <button class="btn-ink" onclick="shareInv()">分享给好友</button>
-        <button class="btn-ghost" onclick="fakeInv()">模拟邀请+1（演示）</button>
+      <div class="inv-pb-track">
+        <div class="inv-pb-fill" id="invPbFill" style="width:0%"></div>
+      </div>
+      <div class="inv-pb-badges">
+        <span class="inv-pb-badge done" id="invB0">🍑 凡桃</span>
+        <span class="inv-pb-badge" id="invB1">🌸 邀请1人</span>
+        <span class="inv-pb-badge" id="invB2">🌸 邀请2人</span>
+        <span class="inv-pb-badge active-badge" id="invB3">🌸 仙桃 (3人)</span>
       </div>
     </div>
+
+    <!-- 邀请卡 -->
+    <div class="inv-card-section">
+      <canvas id="invCanvas" width="340" height="210"></canvas>
+      <div class="inv-card-actions">
+        <button class="btn-ink" onclick="genInvCard()">生成专属邀请卡</button>
+        <button class="btn-ink" onclick="shareInvite()">分享给好友 🎋</button>
+      </div>
+    </div>
+
+    <!-- 说明 -->
+    <div class="inv-how">
+      <div class="inv-how-item"><span class="inv-how-n">1</span>点击「生成邀请卡」或复制邀请码</div>
+      <div class="inv-how-item"><span class="inv-how-n">2</span>发给微信好友 · 好友打开链接即自动识别</div>
+      <div class="inv-how-item"><span class="inv-how-n">3</span>好友完成任意游戏 → 你自动获得 <strong>+20积分</strong></div>
+    </div>
+
   </div>
 </section>
+
+<!-- 被邀请欢迎弹窗 -->
+<div id="refWelcome" style="display:none">
+  <div class="ref-overlay" onclick="closeRefWelcome()"></div>
+  <div class="ref-modal">
+    <div class="ref-modal-top">🍑</div>
+    <div class="ref-modal-title">仙客驾到</div>
+    <div class="ref-modal-sub">你通过好友邀请进入磨水山桃仙境</div>
+    <div class="ref-modal-body">邀请人已自动获得 <strong>+20积分</strong><br>你也将获得 <strong>+10积分</strong> 欢迎加成</div>
+    <button class="btn-ink" style="width:100%;margin-top:16px" onclick="closeRefWelcome()">开始探索仙境 →</button>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════
      第三屏  排行榜
@@ -1876,22 +2016,70 @@ function genInvCard(){
   cx.fillText('扫码进群 · 第一时间收到购买链接',w/2,184);
 }
 
-function shareInv(){
-  const cv=document.getElementById('invCanvas');
-  if(cv.style.display==='none'){genInvCard();}
-  const url=location.href.split('?')[0]+'?ref='+Date.now();
-  const txt='我在蟠桃仙境抢到了座位！来自山西磨水山、白云寺旁的千年灵桃即将开售，一起来测缘分 👉 '+url;
-  if(navigator.share){navigator.share({title:'磨水山桃·千年记',text:txt,url});}
-  else{navigator.clipboard.writeText(txt).then(()=>alert('✅ 邀请内容已复制到剪贴板，去粘贴分享给好友吧！')).catch(()=>prompt('复制此内容发给好友：',txt));}
-}
+// ══ 邀请系统 ══
+(function(){
+  let uid=localStorage.getItem('zyt_uid');
+  if(!uid){
+    uid='M'+Date.now().toString(36).slice(-4).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();
+    localStorage.setItem('zyt_uid',uid);
+  }
+  window._myUid=uid;
+  const codeEl=document.getElementById('myCode');
+  if(codeEl) codeEl.textContent=uid;
 
-function fakeInv(){
-  invs++;localStorage.setItem('zyt_i',invs);
-  document.getElementById('invF').style.width=Math.min(invs/3*100,100)+'%';
-  document.getElementById('invT').textContent=`已邀请 ${invs}/3 人，邀满3人解锁 🌸 仙桃称号`;
-  addPts(20);pop(20);
-  if(invs>=3)badge('🌸 仙桃');
-}
+  function refreshInvProgress(){
+    const n=invs, pct=Math.min(n/3*100,100);
+    const fillEl=document.getElementById('invPbFill');
+    const ctEl=document.getElementById('invCountShow');
+    if(fillEl) fillEl.style.width=pct+'%';
+    if(ctEl) ctEl.textContent=n+' / 3 人';
+    [0,1,2,3].forEach(i=>{
+      const b=document.getElementById('invB'+i);
+      if(!b)return;
+      b.classList.remove('done','active-badge');
+      if(i===0||i<=n) b.classList.add('done');
+      else if(i===Math.min(n+1,3)) b.classList.add('active-badge');
+    });
+  }
+  refreshInvProgress();
+  window._refreshInvProgress=refreshInvProgress;
+
+  const urlRef=new URLSearchParams(location.search).get('ref');
+  if(urlRef&&urlRef!==uid){
+    const seenKey='zyt_seen_'+urlRef;
+    if(!localStorage.getItem(seenKey)){
+      localStorage.setItem(seenKey,'1');
+      setTimeout(()=>{
+        addPts(10);pop(10);
+        document.getElementById('refWelcome').style.display='block';
+        invs=Math.min(invs+1,99);
+        localStorage.setItem('zyt_i',invs);
+        refreshInvProgress();
+        addPts(20);
+        if(invs>=3)badge('🌸 仙桃');
+      },1800);
+    }
+  }
+
+  window.copyCode=function(){
+    const url=location.href.split('?')[0]+'?ref='+window._myUid;
+    navigator.clipboard.writeText(url).then(()=>{
+      const btn=document.querySelector('.inv-copy-btn');
+      btn.textContent='✓ 已复制！';btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='复制邀请码';btn.classList.remove('copied');},2000);
+    }).catch(()=>{prompt('复制此邀请链接：',location.href.split('?')[0]+'?ref='+window._myUid);});
+  };
+
+  window.shareInvite=function(){
+    genInvCard();
+    const url=location.href.split('?')[0]+'?ref='+window._myUid;
+    const txt='我在磨水山桃仙境等你！来自山西磨水山、白云寺旁的千年灵桃即将开售，先来测测缘分 👉 '+url;
+    if(navigator.share){navigator.share({title:'磨水山桃·千年记',text:txt,url});}
+    else{navigator.clipboard.writeText(txt).then(()=>alert('✅ 邀请内容已复制，去发给好友吧！')).catch(()=>prompt('复制此内容：',txt));}
+  };
+
+  window.closeRefWelcome=function(){document.getElementById('refWelcome').style.display='none';};
+})();
 
 // ── 排行榜 ──
 const DEMO=[
