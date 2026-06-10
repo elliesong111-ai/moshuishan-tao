@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>转运桃·千年记 | 优利康黄金蟠桃</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;900&display=swap');
+
+:root {
+  --amber:   #C4600A;
+  --amber2:  #E8A020;
+  --gold:    #D4950A;
+  --gold2:   #F0C040;
+  --teal:    #2E6B6A;
+  --teal2:   #4A9090;
+  --red:     #9B2335;
+  --red2:    #C0392B;
+  --paper:   #FAF0DC;
+  --paper2:  #F0DDB8;
+  --ink:     #1A0C04;
+  --ink2:    #3A2010;
+  --mist:    rgba(250,240,220,0.7);
+  --cream:   #FFF8EE;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Serif SC','STSong',serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+/* ── 宣纸纤维底纹 ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,  transparent,transparent 6px,rgba(180,120,40,.018) 6px,rgba(180,120,40,.018) 7px),
+    repeating-linear-gradient(90deg, transparent,transparent 6px,rgba(180,120,40,.018) 6px,rgba(180,120,40,.018) 7px);
+  pointer-events:none;z-index:999;
+}
+
+/* ══════════════ NAV ══════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:998;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 24px;
+  background:rgba(26,12,4,.94);
+  border-bottom:1px solid rgba(212,149,10,.35);
+  backdrop-filter:blur(6px);
+}
+.nav-brand{
+  color:var(--gold2);font-size:15px;font-weight:900;letter-spacing:3px;
+}
+.nav-links{display:flex;gap:20px;}
+.nav-links a{
+  color:rgba(250,240,220,.65);text-decoration:none;
+  font-size:12px;letter-spacing:3px;transition:color .2s;
+}
+.nav-links a:hover{color:var(--gold2);}
+
+/* 积分浮标 */
+.pts-badge{
+  position:fixed;top:58px;right:0;z-index:997;
+  background:var(--red);color:var(--gold2);
+  padding:7px 14px 7px 18px;font-size:12px;letter-spacing:1px;font-weight:700;
+  border-radius:20px 0 0 20px;
+  box-shadow:-2px 3px 14px rgba(155,35,53,.4);
+  cursor:pointer;transition:transform .2s;
+}
+.pts-badge:hover{transform:translateX(-4px);}
+.pts-badge b{font-size:17px;}
+
+/* ══════════════════════════════════
+   SCREEN 1  故事长卷
+══════════════════════════════════ */
+#story{
+  position:relative;overflow:hidden;padding-top:56px;
+  /* 工笔重彩底色 */
+  background:linear-gradient(180deg,#7A2A08 0%,#B85010 12%,#D47820 28%,#C86018 50%,#9A3010 75%,#6A1808 100%);
+}
+
+/* 整屏祥云SVG背景 */
+.bg-clouds{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+
+/* 卷轴杆 */
+.rod{
+  width:84%;max-width:520px;height:18px;margin:0 auto;
+  background:linear-gradient(90deg,#2A0E00,#7A3A10,#D4904A,#F0C080,#D4904A,#7A3A10,#2A0E00);
+  border-radius:9px;box-shadow:0 4px 14px rgba(0,0,0,.5);
+}
+
+.story-hero{
+  text-align:center;padding:40px 20px 24px;position:relative;
+}
+.hero-sub{color:rgba(250,240,220,.5);font-size:12px;letter-spacing:5px;margin-bottom:18px;}
+.hero-title{
+  font-size:clamp(34px,9vw,68px);font-weight:900;
+  color:var(--gold2);letter-spacing:8px;
+  text-shadow:0 0 50px rgba(240,192,64,.5),0 3px 0 rgba(0,0,0,.4);
+  line-height:1.2;
+}
+.hero-title-en{color:rgba(250,240,220,.35);font-size:11px;letter-spacing:6px;margin-top:10px;}
+/* 装饰横线 */
+.hero-rule{
+  display:flex;align-items:center;gap:14px;
+  justify-content:center;margin:18px 0;
+}
+.hero-rule span{color:rgba(240,192,64,.6);font-size:18px;letter-spacing:6px;}
+.hero-rule::before,.hero-rule::after{
+  content:'';flex:1;max-width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,192,64,.5),transparent);
+}
+
+/* 章节 */
+.chapter{
+  display:flex;
+  align-items:center;
+  padding:44px 20px 32px;
+  flex-direction:row;
+  opacity:0;
+  transform:translateY(50px);
+  transition:opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+}
+.chapter.vis{
+  opacity:1;
+  transform:translateY(0);
+}
+.chapter:nth-child(odd) { flex-direction:row; }
+.chapter:nth-child(even){ flex-direction:row-reverse; }
+
+.ch-art{flex:0 0 44%;display:flex;align-items:center;justify-content:center;padding:14px;}
+.ch-frame{
+  width:100%;max-width:290px;aspect-ratio:3/4;
+  position:relative;overflow:hidden;
+  border:1px solid rgba(240,192,64,.3);
+  box-shadow:0 20px 60px rgba(0,0,0,.45),
+             inset 0 0 0 5px rgba(240,192,64,.06),
+             4px 4px 0 rgba(240,192,64,.12);
+}
+/* 四角装饰 */
+.ch-frame::before{
+  content:'';position:absolute;inset:7px;z-index:10;
+  border:1px solid rgba(240,192,64,.18);pointer-events:none;
+}
+.ch-frame svg{width:100%;height:100%;display:block;}
+
+.ch-txt{flex:1;padding:0 18px;}
+.ch-num{font-size:10px;color:var(--gold);letter-spacing:5px;margin-bottom:8px;opacity:.7;}
+.ch-title{
+  font-size:clamp(22px,5vw,32px);color:var(--gold2);font-weight:900;
+  letter-spacing:4px;margin-bottom:16px;line-height:1.3;
+}
+.ch-title::after{content:'';display:block;width:36px;height:2px;background:var(--red2);margin-top:9px;opacity:.7;}
+.ch-body{
+  color:rgba(250,240,220,.82);font-size:clamp(13px,3vw,15px);
+  line-height:2.2;letter-spacing:1px;font-weight:300;
+}
+.ch-body em{color:var(--gold2);font-style:normal;font-weight:600;}
+
+/* 墨线分隔 */
+.sep{
+  text-align:center;padding:24px;position:relative;
+}
+.sep::before{
+  content:'';position:absolute;top:50%;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,192,64,.18),rgba(240,192,64,.18),transparent);
+}
+.sep span{
+  position:relative;z-index:1;
+  color:rgba(240,192,64,.5);font-size:14px;letter-spacing:8px;
+  background:inherit;padding:0 14px;
+}
+
+/* CTA */
+/* sep 分隔符 */
+.story-stage .sep{ display:block; }
+
+/* 进度条 */
+.ch-progress-wrap{
+  padding:16px 20px 0;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.ch-progress-bar{
+  width:min(88vw,520px); height:3px;
+  background:rgba(250,240,220,.12); border-radius:2px; overflow:hidden;
+  position:relative;
+}
+.ch-progress-bar::after{
+  content:'';
+  position:absolute; inset:0 auto 0 0;
+  height:100%;
+  background:linear-gradient(90deg,var(--red),var(--gold2));
+  border-radius:2px;
+  width:var(--prog,20%);
+  transition:width .5s cubic-bezier(.16,1,.3,1);
+}
+.ch-progress-dots{
+  display:flex; gap:10px; align-items:center;
+}
+.ch-dot{
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(250,240,220,.2); border:1px solid rgba(240,192,64,.3);
+  cursor:pointer; transition:all .3s;
+}
+.ch-dot.active{
+  background:var(--gold2); border-color:var(--gold2);
+  box-shadow:0 0 8px rgba(240,192,64,.6);
+  transform:scale(1.25);
+}
+.ch-dot.done{
+  background:rgba(240,192,64,.45); border-color:rgba(240,192,64,.5);
+}
+
+.ch-nav{ display:none; }
+/* 章节导航按钮（隐藏翻章模式）
+.ch-nav{
+.ch-prev,.ch-next{
+  padding:12px 30px;
+  border:1px solid rgba(240,192,64,.45);
+  background:rgba(240,192,64,.06);
+  color:var(--gold2); font-family:inherit;
+  font-size:13px; font-weight:700; letter-spacing:3px;
+  cursor:pointer; transition:all .25s;
+  position:relative; overflow:hidden;
+}
+.ch-prev::after,.ch-next::after{
+  content:'';
+  position:absolute; inset:0;
+  background:rgba(240,192,64,.12);
+  transform:scaleX(0); transform-origin:center;
+  transition:transform .25s ease;
+}
+.ch-prev:hover::after,.ch-next:hover::after{ transform:scaleX(1); }
+.ch-prev:hover,.ch-next:hover{
+  border-color:var(--gold2);
+  box-shadow:0 0 16px rgba(240,192,64,.18);
+}
+.ch-prev:active,.ch-next:active{
+  transform:scale(.96);
+}
+.ch-prev:disabled,.ch-next:disabled{
+  opacity:.22; cursor:default; pointer-events:none;
+}
+.ch-next.final{
+  background:var(--red); border-color:var(--red);
+  color:var(--gold2); animation:pulse 1.8s ease infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(155,35,53,0)}
+  50%    {box-shadow:0 0 0 8px rgba(155,35,53,.25)}
+}
+.ch-counter{
+  color:rgba(250,240,220,.45); font-size:12px; letter-spacing:3px;
+}
+
+/* 章节数字标 */
+.ch-num{ font-size:10px;color:var(--gold);letter-spacing:5px;margin-bottom:8px;opacity:.7; }
+
+.story-cta{text-align:center;padding:50px 20px 70px;position:relative;}
+.btn-ancient{
+  display:inline-block;padding:15px 48px;
+  border:1px solid var(--gold);color:var(--gold2);
+  font-size:14px;font-weight:700;letter-spacing:5px;
+  cursor:pointer;text-decoration:none;font-family:inherit;
+  position:relative;overflow:hidden;transition:color .4s;
+  background:rgba(212,149,10,.08);
+}
+.btn-ancient::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--amber),var(--gold));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;z-index:-1;
+}
+.btn-ancient:hover{color:var(--ink);}
+.btn-ancient:hover::before{transform:scaleX(1);}
+
+/* ══════════════════════════════════
+   SCREEN 2  游戏   水墨风格
+══════════════════════════════════ */
+#games{
+  background:var(--cream);padding:80px 0 60px;position:relative;
+}
+#games::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--red),var(--gold),var(--red),transparent);
+}
+
+.sec-hd{text-align:center;padding:0 20px 32px;}
+.sec-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  color:var(--red);font-size:10px;letter-spacing:6px;margin-bottom:10px;
+}
+.sec-eyebrow::before,.sec-eyebrow::after{content:'';width:28px;height:1px;background:var(--red);opacity:.4;}
+.sec-title{font-size:clamp(22px,5vw,34px);color:var(--ink);font-weight:900;letter-spacing:6px;}
+.sec-sub{color:var(--amber);font-size:13px;letter-spacing:3px;margin-top:7px;}
+
+/* 标签页 */
+.gtabs{
+  display:flex;max-width:460px;margin:0 auto 26px;
+  border-bottom:1.5px solid rgba(155,35,53,.2);
+}
+.gtab{
+  flex:1;padding:11px 4px;text-align:center;cursor:pointer;
+  font-size:12px;font-weight:600;letter-spacing:1px;
+  color:rgba(26,12,4,.4);background:none;border:none;font-family:inherit;
+  position:relative;transition:color .3s;
+}
+.gtab::after{
+  content:'';position:absolute;bottom:-1.5px;left:15%;right:15%;height:2px;
+  background:var(--red);transform:scaleX(0);transition:transform .3s;
+}
+.gtab.act{color:var(--red);}
+.gtab.act::after{transform:scaleX(1);}
+
+.gp{display:none;padding:0 16px;}
+.gp.act{display:block;}
+
+/* 问答 */
+.qwrap{
+  max-width:540px;margin:0 auto;
+  background:rgba(255,252,246,.95);
+  border:1px solid rgba(212,149,10,.25);
+  box-shadow:4px 4px 18px rgba(26,12,4,.07),inset 0 0 0 4px rgba(240,220,180,.3);
+  padding:26px 22px;
+}
+.qprog{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.qprog-t{font-size:11px;color:var(--gold);letter-spacing:2px;}
+.qchip{background:var(--red);color:white;padding:3px 11px;font-size:11px;font-weight:700;border-radius:20px;}
+.qbar{height:3px;background:rgba(155,35,53,.1);margin-bottom:22px;overflow:hidden;}
+.qbar-f{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .4s;}
+.qq{font-size:clamp(14px,3.5vw,16px);color:var(--ink);font-weight:600;line-height:1.9;margin-bottom:18px;letter-spacing:1px;}
+.qopts{display:grid;gap:9px;}
+.qo{
+  padding:11px 15px;border:1px solid rgba(26,12,4,.1);
+  cursor:pointer;font-size:13px;font-family:inherit;text-align:left;
+  background:white;color:var(--ink2);transition:all .2s;line-height:1.6;
+}
+.qo:hover:not(:disabled){border-color:rgba(155,35,53,.3);background:rgba(155,35,53,.03);}
+.qo.ok {background:rgba(74,144,100,.09);border-color:#4A9064;color:#2A6040;font-weight:600;}
+.qo.err{background:rgba(155,35,53,.06);border-color:var(--red);color:var(--red);}
+.qo:disabled{cursor:default;}
+.qfb{
+  margin-top:12px;padding:10px 14px;font-size:12px;line-height:1.8;
+  display:none;border-left:3px solid;letter-spacing:.5px;
+}
+.qfb.show{display:block;}
+.qfb.ok {background:rgba(74,144,100,.07);border-color:#4A9064;color:#2A6040;}
+.qfb.err{background:rgba(155,35,53,.05);border-color:var(--red);color:var(--red);}
+.qnext{
+  display:none;width:100%;margin-top:16px;padding:12px;
+  background:var(--red);color:var(--gold2);border:none;
+  font-size:13px;font-weight:700;letter-spacing:4px;cursor:pointer;font-family:inherit;
+}
+.qnext.show{display:block;}
+.qnext:hover{opacity:.88;}
+.qres{text-align:center;padding:18px 0;display:none;}
+.qres.show{display:block;}
+.qres-icon{font-size:58px;margin-bottom:12px;}
+.qres-t{font-size:20px;font-weight:900;color:var(--red);letter-spacing:4px;}
+.qres-s{font-size:48px;font-weight:900;color:var(--gold);}
+.qres-sub{font-size:12px;color:var(--gold);letter-spacing:2px;margin-top:4px;}
+.qres-seal{
+  display:inline-block;margin:18px auto;
+  border:2px solid var(--red);color:var(--red);
+  padding:7px 22px;font-size:15px;font-weight:700;
+  letter-spacing:3px;transform:rotate(-3deg);
+}
+
+/* 挑水 */
+.wwrap{max-width:360px;margin:0 auto;text-align:center;}
+.wstats{
+  display:flex;justify-content:space-around;
+  background:rgba(255,252,246,.95);border:1px solid rgba(212,149,10,.2);
+  padding:11px;margin-bottom:12px;
+}
+.wst{font-size:11px;color:var(--gold);letter-spacing:1px;}
+.wst strong{display:block;font-size:22px;color:var(--red);font-weight:900;}
+#wCanvas{
+  border:1px solid rgba(212,149,10,.25);display:block;margin:0 auto;
+  touch-action:none;cursor:none;
+  box-shadow:3px 3px 18px rgba(26,12,4,.12);
+}
+.wtip{
+  margin-top:9px;padding:10px 12px;
+  background:rgba(255,252,246,.9);border:1px solid rgba(212,149,10,.18);
+  font-size:12px;color:var(--ink2);min-height:40px;
+  display:flex;align-items:center;justify-content:center;
+  letter-spacing:.5px;line-height:1.6;text-align:center;
+}
+.btn-ink{
+  display:inline-block;margin-top:12px;padding:11px 30px;
+  background:var(--red);color:var(--gold2);border:none;
+  font-size:13px;font-weight:700;letter-spacing:3px;cursor:pointer;font-family:inherit;
+  transition:opacity .2s;
+}
+.btn-ink:hover{opacity:.88;}
+
+/* ─ 邀请 ─ */
+.inv-wrap{max-width:460px;margin:0 auto;}
+
+/* 邀请卡画布 */
+#invCanvas{
+  display:none;
+  border:1px solid rgba(212,149,10,.3);
+  box-shadow:3px 3px 18px rgba(26,12,4,.12);
+  margin:0 auto 14px;
+}
+
+.inv-info{
+  background:linear-gradient(160deg,#7B1A28,#9B2335 50%,#7B1A28);
+  border:1px solid rgba(212,149,10,.35);
+  padding:24px 20px;text-align:center;margin-bottom:18px;
+  position:relative;overflow:hidden;
+}
+.inv-info::after{content:'壽桃';position:absolute;right:-8px;bottom:-8px;font-size:90px;opacity:.06;color:white;font-weight:900;transform:rotate(-15deg);}
+.inv-t{color:var(--gold2);font-size:19px;font-weight:900;letter-spacing:4px;}
+.inv-s{color:rgba(250,240,220,.6);font-size:11px;letter-spacing:3px;margin:5px 0 16px;}
+.inv-bar{background:rgba(255,255,255,.15);height:5px;border-radius:3px;margin:12px 0 7px;overflow:hidden;}
+.inv-bar-f{height:100%;background:linear-gradient(90deg,var(--gold),#FFF176);border-radius:3px;transition:width .5s;}
+.inv-bar-t{color:rgba(250,240,220,.75);font-size:11px;letter-spacing:1px;}
+
+.inv-steps{
+  background:rgba(255,252,246,.95);border:1px solid rgba(212,149,10,.18);
+  padding:16px;margin-bottom:14px;
+}
+.inv-step{display:flex;gap:11px;padding:8px 0;border-bottom:1px dashed rgba(26,12,4,.07);font-size:13px;color:var(--ink2);line-height:1.6;}
+.inv-step:last-child{border:none;}
+.inv-sn{flex:0 0 20px;height:20px;background:var(--red);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px;}
+
+.inv-actions{display:flex;flex-direction:column;gap:8px;}
+.inv-actions .btn-ink{display:block;width:100%;margin-top:0;}
+.btn-ghost{
+  display:block;width:100%;padding:11px 30px;
+  background:rgba(26,12,4,.08);color:var(--ink2);border:1px solid rgba(26,12,4,.15);
+  font-size:12px;font-weight:600;letter-spacing:2px;cursor:pointer;font-family:inherit;
+}
+
+/* ══════════════════════════════════
+   SCREEN 3  排行榜
+══════════════════════════════════ */
+#leaderboard{
+  background:linear-gradient(180deg,#1A0C04 0%,#2E1808 100%);
+  padding:80px 0 60px;position:relative;overflow:hidden;
+}
+#leaderboard::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:500px;height:500px;
+  background:radial-gradient(ellipse,rgba(196,96,10,.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+#leaderboard::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--red),var(--gold),var(--red),transparent);
+}
+
+.lb-hd{text-align:center;padding:0 20px 28px;}
+.live-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(155,35,53,.15);border:1px solid rgba(155,35,53,.3);
+  color:rgba(250,240,220,.6);font-size:10px;letter-spacing:3px;
+  padding:3px 13px;border-radius:20px;margin-bottom:12px;
+}
+.ldot{width:5px;height:5px;background:#ff5555;border-radius:50%;animation:blink 1.4s infinite;}
+.lb-title{font-size:clamp(22px,5vw,36px);color:var(--gold2);font-weight:900;letter-spacing:5px;}
+
+.cnt-wrap{text-align:center;margin-bottom:32px;padding:0 20px;}
+.cnt-box{
+  display:inline-block;border:1px solid rgba(212,149,10,.2);padding:16px 44px;position:relative;
+}
+.cnt-box::before,.cnt-box::after{content:'';position:absolute;width:14px;height:14px;border-color:var(--gold);border-style:solid;opacity:.45;}
+.cnt-box::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+.cnt-box::after {bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.cnt-num{font-size:clamp(40px,9vw,64px);font-weight:900;color:var(--gold2);letter-spacing:4px;text-shadow:0 0 30px rgba(212,149,10,.3);}
+.cnt-lbl{color:rgba(250,240,220,.45);font-size:12px;letter-spacing:4px;margin-top:3px;}
+
+.titles-g{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;padding:0 14px;max-width:520px;margin:0 auto 32px;}
+.tc{border:1px solid rgba(212,149,10,.14);padding:14px 10px;text-align:center;background:rgba(255,255,255,.03);transition:all .3s;position:relative;overflow:hidden;}
+.tc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,149,10,.06),transparent);opacity:0;transition:opacity .3s;}
+.tc:hover::before{opacity:1;}
+.tc:hover{border-color:rgba(212,149,10,.32);transform:translateY(-2px);}
+.tc-e{font-size:28px;display:block;margin-bottom:7px;}
+.tc-n{color:var(--gold2);font-size:13px;font-weight:700;letter-spacing:2px;margin-bottom:3px;}
+.tc-c{color:rgba(250,240,220,.45);font-size:11px;letter-spacing:.5px;line-height:1.6;}
+
+.lb-rows-wrap{max-width:440px;margin:0 auto;padding:0 14px;}
+.lb-rows-hd{display:flex;justify-content:space-between;padding:0 12px 9px;color:rgba(250,240,220,.3);font-size:10px;letter-spacing:3px;border-bottom:1px solid rgba(212,149,10,.13);margin-bottom:5px;}
+.lb-row{display:flex;align-items:center;padding:10px 12px;margin-bottom:3px;transition:background .2s;}
+.lb-row:hover{background:rgba(212,149,10,.05);}
+.lb-row.hi{background:rgba(212,149,10,.07);border:1px solid rgba(212,149,10,.14);}
+.lb-rn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-right:11px;flex-shrink:0;}
+.r1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#5B3A00;}
+.r2{background:linear-gradient(135deg,#C0C0C0,#909090);color:#222;}
+.r3{background:linear-gradient(135deg,#CD7F32,#8B4513);color:white;}
+.rn{background:rgba(255,255,255,.08);color:rgba(250,240,220,.35);}
+.lb-nm{flex:1;color:rgba(250,240,220,.82);font-size:13px;letter-spacing:1px;}
+.lb-bi{font-size:14px;margin-right:5px;}
+.lb-pts{color:var(--gold2);font-weight:700;font-size:13px;}
+
+.priv-wrap{max-width:440px;margin:22px auto 0;padding:0 14px;}
+.priv{border:1px solid rgba(212,149,10,.22);padding:18px;text-align:center;background:rgba(155,35,53,.08);position:relative;}
+.priv::before,.priv::after{content:'';position:absolute;width:13px;height:13px;border-color:var(--gold);border-style:solid;opacity:.38;}
+.priv::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+.priv::after {bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.priv-t{color:var(--gold2);font-size:13px;font-weight:700;letter-spacing:3px;margin-bottom:9px;}
+.priv-d{color:rgba(250,240,220,.7);font-size:12px;line-height:1.9;letter-spacing:.5px;}
+.priv-d strong{color:var(--gold2);}
+
+/* ══════════════════════════════════
+   SCREEN 4  预售
+══════════════════════════════════ */
+#presale{
+  background:linear-gradient(180deg,#2E1808 0%,#1A0C04 100%);
+  padding:80px 0 60px;position:relative;
+}
+#presale::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--red),var(--gold),var(--red),transparent);}
+
+.ps-hd{text-align:center;padding:0 20px 32px;}
+.ps-limit{display:inline-block;border:1px solid var(--red);color:var(--red);font-size:10px;padding:3px 14px;letter-spacing:3px;margin-bottom:12px;}
+.ps-title{font-size:clamp(22px,5vw,34px);color:var(--gold2);font-weight:900;letter-spacing:5px;}
+
+.tl{max-width:440px;margin:0 auto 36px;padding:0 20px;}
+.tl-it{display:flex;gap:16px;padding:20px 0 20px 18px;border-left:1px solid rgba(212,149,10,.18);position:relative;}
+.tl-it::before{content:'';position:absolute;left:-5px;top:24px;width:9px;height:9px;background:var(--gold);border-radius:50%;box-shadow:0 0 10px rgba(212,149,10,.5);}
+.tl-time{flex:0 0 46px;color:var(--gold2);font-size:22px;font-weight:900;letter-spacing:2px;padding-top:2px;}
+.tl-lbl{color:var(--gold2);font-size:13px;font-weight:700;letter-spacing:2px;margin-bottom:5px;}
+.tl-desc{color:rgba(250,240,220,.65);font-size:12px;line-height:1.9;letter-spacing:.5px;}
+.tl-desc strong{color:var(--gold2);}
+.tag-ex{display:inline-block;margin-top:5px;background:rgba(155,35,53,.28);border:1px solid rgba(155,35,53,.45);color:rgba(250,240,220,.75);font-size:10px;padding:2px 9px;letter-spacing:2px;}
+
+.wx-wrap{max-width:340px;margin:0 auto;padding:0 20px;text-align:center;}
+.wx-box{border:1px solid rgba(212,149,10,.22);padding:26px 20px;background:rgba(255,255,255,.03);position:relative;}
+.wx-box::before,.wx-box::after{content:'';position:absolute;width:16px;height:16px;border-color:var(--gold);border-style:solid;opacity:.32;}
+.wx-box::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+.wx-box::after {bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.wx-t{color:var(--gold2);font-size:16px;font-weight:700;letter-spacing:4px;margin-bottom:5px;}
+.wx-s{color:rgba(250,240,220,.45);font-size:11px;letter-spacing:2px;margin-bottom:20px;}
+.wx-qr{width:148px;height:148px;background:white;margin:0 auto 18px;border:3px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:#999;gap:6px;}
+.wx-qr-i{font-size:34px;}
+.wx-bens{display:flex;flex-direction:column;gap:7px;text-align:left;}
+.wx-ben{display:flex;align-items:flex-start;gap:7px;color:rgba(250,240,220,.65);font-size:12px;line-height:1.6;}
+.wx-ben::before{content:'✦';color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;}
+
+footer{background:#0A0400;padding:26px 20px;text-align:center;border-top:1px solid rgba(212,149,10,.13);}
+footer p{color:rgba(250,240,220,.28);font-size:11px;letter-spacing:2px;line-height:2.2;}
+footer .brand{color:var(--gold);}
+
+/* ── 动画 ── */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes inkPop{0%{opacity:0;transform:scale(.8)}50%{opacity:1}100%{opacity:0;transform:translateY(-42px) scale(1.1)}}
+@keyframes cloudDrift{0%{transform:translateX(-10px)}100%{transform:translateX(10px)}}
+
+.spop{position:fixed;pointer-events:none;z-index:9999;color:var(--gold2);font-size:20px;font-weight:900;animation:inkPop .9s ease-out forwards;text-shadow:0 2px 6px rgba(0,0,0,.4);}
+
+@media(max-width:480px){
+  .chapter{flex-direction:column!important;}
+  .ch-art{flex:0 0 auto;width:100%;}
+  .ch-frame{max-width:210px;}
+  .titles-g{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ 开屏动画 ══════════════ -->
+<div id="splash">
+  <canvas id="splashCanvas"></canvas>
+
+  <div class="scroll-wrap">
+    <div class="scroll-rod-top"></div>
+    <div class="scroll-body">
+      <div class="scroll-content">
+        <div class="splash-eyebrow">山西磨水山 · 优利康果园</div>
+        <div class="splash-title">
+          <span class="char" style="--i:0">转</span>
+          <span class="char" style="--i:1">运</span>
+          <span class="char dot">·</span>
+          <span class="char" style="--i:2">千</span>
+          <span class="char" style="--i:3">年</span>
+          <span class="char" style="--i:4">记</span>
+        </div>
+        <div class="splash-rule"></div>
+        <div class="splash-sub">一枚承载千年祝愿的桃</div>
+        <div class="splash-peach">🍑</div>
+        <button class="splash-enter" onclick="closeSplash()">进入仙境 →</button>
+      </div>
+    </div>
+    <div class="scroll-rod-bottom"></div>
+  </div>
+
+  <div class="splash-skip" onclick="closeSplash()">跳过</div>
+</div>
+
+<style>
+/* ══ 开屏 ══ */
+#splash {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: #0E0600;
+}
+#splashCanvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* 卷轴容器 */
+.scroll-wrap {
+  position: relative; z-index: 10;
+  width: min(88vw, 520px);
+  display: flex; flex-direction: column; align-items: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,.8);
+  animation: scrollReveal 1s cubic-bezier(.16,1,.3,1) .3s both;
+}
+@keyframes scrollReveal {
+  from { opacity: 0; transform: scale(.88) translateY(28px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 卷轴杆 */
+.scroll-rod-top, .scroll-rod-bottom {
+  width: 100%; height: 18px;
+  background: linear-gradient(90deg,#2A0E00,#7A3A10,#D4904A,#F0C080,#D4904A,#7A3A10,#2A0E00);
+  border-radius: 9px;
+}
+.scroll-rod-top    { box-shadow: 0 6px 18px rgba(0,0,0,.6); }
+.scroll-rod-bottom { box-shadow: 0 -4px 18px rgba(0,0,0,.6); }
+
+/* 卷轴展开 */
+.scroll-body {
+  width: 100%; overflow: hidden;
+  animation: unroll 1s cubic-bezier(.16,1,.3,1) .5s both;
+  background: linear-gradient(180deg,
+    #2A1408 0%, #C87020 8%,
+    #D48828 20%, #E09830 45%,
+    #C87020 80%, #2A1408 100%
+  );
+  position: relative;
+}
+@keyframes unroll {
+  from { max-height: 0; }
+  to   { max-height: 600px; }
+}
+.scroll-body::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(180,100,10,.05) 8px,rgba(180,100,10,.05) 9px),
+    repeating-linear-gradient(0deg, transparent,transparent 8px,rgba(180,100,10,.05) 8px,rgba(180,100,10,.05) 9px);
+}
+.scroll-body::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, rgba(255,220,100,.1) 0%, transparent 70%);
+}
+
+.scroll-content {
+  padding: 40px 28px 36px;
+  text-align: center; position: relative; z-index: 1;
+}
+
+.splash-eyebrow {
+  color: rgba(240,192,64,.6);
+  font-size: 11px; letter-spacing: 5px; margin-bottom: 20px;
+  animation: fadeUp .6s ease .9s both;
+}
+
+/* 主标题逐字 */
+.splash-title {
+  display: flex; align-items: center; justify-content: center;
+  gap: 3px; margin-bottom: 0; line-height: 1;
+}
+.char {
+  font-family: 'Noto Serif SC','STSong',serif;
+  font-size: clamp(38px,11vw,60px);
+  font-weight: 900; color: #F0C040;
+  letter-spacing: 2px;
+  text-shadow: 0 0 40px rgba(240,192,64,.6), 0 3px 0 rgba(0,0,0,.5);
+  opacity: 0; display: inline-block; transform: translateY(16px);
+  animation: charIn .5s cubic-bezier(.16,1,.3,1) calc(.9s + var(--i,0) * .12s) forwards;
+}
+.char.dot {
+  font-size: clamp(18px,5vw,28px);
+  color: rgba(240,192,64,.5);
+  animation: charIn .5s ease 1.14s forwards;
+}
+@keyframes charIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-rule {
+  width: 60%; height: 1px;
+  background: linear-gradient(90deg,transparent,rgba(240,192,64,.5),transparent);
+  margin: 18px auto;
+  animation: fadeUp .5s ease 1.5s both;
+}
+.splash-sub {
+  color: rgba(250,240,220,.72);
+  font-family: 'Noto Serif SC',serif;
+  font-size: clamp(12px,3vw,15px);
+  letter-spacing: 4px;
+  animation: fadeUp .5s ease 1.6s both;
+}
+.splash-peach {
+  font-size: 42px; display: inline-block;
+  margin: 16px 0;
+  animation: peachFloat 1.8s ease 1.8s both;
+}
+@keyframes peachFloat {
+  0%   { opacity: 0; transform: scale(0) rotate(-20deg); }
+  60%  { opacity: 1; transform: scale(1.15) rotate(5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.splash-enter {
+  display: inline-block; padding: 13px 44px;
+  border: 1.5px solid rgba(240,192,64,.65);
+  background: rgba(155,35,53,.25);
+  color: #F0C040;
+  font-family: 'Noto Serif SC',serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 5px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: background .3s, border-color .3s;
+  animation: fadeUp .5s ease 2.2s both;
+}
+.splash-enter::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg,rgba(155,35,53,.5),rgba(196,96,10,.5));
+  transform: scaleX(0); transform-origin: left; transition: transform .35s;
+}
+.splash-enter:hover { border-color: #F0C040; }
+.splash-enter:hover::before { transform: scaleX(1); }
+
+.splash-skip {
+  position: absolute; bottom: 24px; right: 24px; z-index: 11;
+  color: rgba(240,192,64,.3); font-size: 12px; letter-spacing: 3px;
+  cursor: pointer; transition: color .2s;
+  animation: fadeUp .4s ease 2.4s both;
+}
+.splash-skip:hover { color: rgba(240,192,64,.7); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 退出 */
+#splash.exit { animation: splashExit .8s cubic-bezier(.4,0,1,1) forwards; }
+@keyframes splashExit {
+  0%   { opacity: 1; transform: scale(1); }
+  40%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">🍑 优利康黄金蟠桃</div>
+  <div class="nav-links">
+    <a href="#story">千年记</a>
+    <a href="#games">测缘分</a>
+    <a href="#leaderboard">抢座</a>
+    <a href="#presale">预售</a>
+  </div>
+</nav>
+
+<div class="pts-badge" onclick="document.getElementById('leaderboard').scrollIntoView({behavior:'smooth'})">
+  <b id="ptsNum">0</b> 积分
+</div>
+
+<!-- ══════════════════════════════════
+     第一屏  故事长卷
+══════════════════════════════════ -->
+<section id="story">
+
+  <!-- 祥云背景 SVG -->
+  <div class="bg-clouds">
+    <svg width="100%" height="100%" viewBox="0 0 800 1400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="30%"><stop offset="0%" stop-color="#F0C040" stop-opacity=".18"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+        <radialGradient id="glow2" cx="50%" cy="60%"><stop offset="0%" stop-color="#C86018" stop-opacity=".25"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      </defs>
+      <ellipse cx="400" cy="300" rx="500" ry="300" fill="url(#glow1)"/>
+      <ellipse cx="400" cy="900" rx="600" ry="400" fill="url(#glow2)"/>
+      <!-- 祥云组 -->
+      <g fill="rgba(250,240,220,.08)" style="animation:cloudDrift 8s ease-in-out infinite alternate">
+        <path d="M60,120 Q80,95 110,100 Q100,75 130,72 Q160,69 165,92 Q190,85 195,108 Q210,115 205,132 Q185,145 155,140 Q150,158 120,155 Q90,158 80,140 Q55,138 60,120Z"/>
+        <path d="M580,200 Q605,172 638,178 Q628,150 660,147 Q692,144 698,170 Q726,162 732,188 Q750,196 744,216 Q722,230 688,225 Q682,246 648,242 Q614,246 602,228 Q574,226 580,200Z"/>
+      </g>
+      <g fill="rgba(250,240,220,.06)">
+        <path d="M-20,450 Q10,418 55,425 Q42,392 80,388 Q118,384 124,414 Q158,405 165,434 Q185,444 178,468 Q154,484 112,478 Q105,502 64,497 Q23,502 8,482 Q-26,480 -20,450Z"/>
+        <path d="M640,600 Q672,565 720,573 Q705,538 746,533 Q787,528 794,561 Q832,551 840,582 Q862,594 854,622 Q826,640 779,633 Q771,660 723,654 Q675,660 658,637 Q620,635 640,600Z"/>
+      </g>
+      <!-- 飞鸟 -->
+      <g fill="rgba(250,240,220,.25)">
+        <path d="M180,280 Q188,275 196,280 Q188,285 180,280Z"/>
+        <path d="M200,268 Q208,263 216,268 Q208,273 200,268Z"/>
+        <path d="M220,278 Q228,273 236,278 Q228,283 220,278Z"/>
+        <path d="M560,380 Q568,375 576,380 Q568,385 560,380Z"/>
+        <path d="M580,368 Q588,363 596,368 Q588,373 580,368Z"/>
+      </g>
+      <!-- 远山剪影 -->
+      <path d="M0,900 Q200,700 400,800 Q600,900 800,720 L800,1400 L0,1400Z" fill="rgba(46,107,106,.15)"/>
+      <path d="M0,1000 Q150,880 300,930 Q500,1000 700,880 L800,900 L800,1400 L0,1400Z" fill="rgba(46,107,106,.1)"/>
+    </svg>
+  </div>
+
+  <div class="rod"></div>
+
+  <div class="story-hero">
+    <div class="hero-sub">山西磨水山 · 优利康果园 · 白云寺旁</div>
+    <div class="hero-title">转运桃·千年记</div>
+    <div class="hero-title-en">ZHUANYUN PEACH · A THOUSAND YEAR STORY</div>
+    <div class="hero-rule"><span>· · ·</span></div>
+  </div>
+
+  <!-- 章节进度条 -->
+  <div class="ch-progress-wrap" style="display:none">
+    <div class="ch-progress-bar" id="chProgressBar"></div>
+    <div class="ch-progress-dots" id="chDots"></div>
+  </div>
+
+  <!-- 翻章舞台 -->
+  <div class="story-stage" id="storyStage">
+
+  <!-- ── Ch1 马刨泉 ── -->
+  <div class="chapter" data-ch="1">
+    <div class="ch-art"><div class="ch-frame">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="s1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#C87020"/><stop offset="40%" stop-color="#E8A030"/><stop offset="100%" stop-color="#5A2808"/>
+          </linearGradient>
+          <radialGradient id="sunG1" cx="72%" cy="18%"><stop offset="0%" stop-color="#FFE080" stop-opacity=".7"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#s1)"/>
+        <ellipse cx="218" cy="55" rx="75" ry="65" fill="url(#sunG1)"/>
+        <!-- 祥云 -->
+        <g fill="rgba(255,248,220,.22)">
+          <path d="M18,72 Q36,54 58,58 Q50,38 72,35 Q94,32 98,54 Q116,46 122,68 Q134,76 128,92 Q114,102 90,98 Q86,114 64,111 Q42,114 32,98 Q8,95 18,72Z"/>
+          <path d="M175,32 Q193,14 218,18 Q210,-2 234,-5 Q258,-8 262,16 Q282,8 288,32 Q300,42 294,58 Q278,70 252,66 Q246,82 222,78 Q198,82 186,66 Q160,63 175,32Z"/>
+        </g>
+        <!-- 远山 -->
+        <path d="M0,230 Q70,158 148,196 Q226,234 300,176 L300,400 L0,400Z" fill="rgba(38,90,80,.45)"/>
+        <path d="M0,268 Q88,218 182,252 L300,238 L300,400 L0,400Z" fill="rgba(30,68,55,.65)"/>
+        <!-- 雾气 -->
+        <rect x="0" y="252" width="300" height="18" fill="rgba(255,248,210,.1)"/>
+
+        <!-- ── 白龙马（侧身昂首刨地）── -->
+        <!-- 马身 -->
+        <path d="M88,230 Q90,210 108,202 Q138,192 168,196 Q190,200 196,216 Q200,232 188,244 Q170,256 140,258 Q110,258 96,246 Q86,240 88,230Z" fill="#F5EED8"/>
+        <!-- 马颈 -->
+        <path d="M168,196 Q182,182 188,168 Q186,156 178,152 Q168,152 162,162 Q156,178 160,196Z" fill="#F5EED8"/>
+        <!-- 马头 -->
+        <ellipse cx="182" cy="148" rx="20" ry="15" fill="#F0E8D0" transform="rotate(-20,182,148)"/>
+        <!-- 马鼻 -->
+        <path d="M194,140 Q200,138 202,143 Q200,148 196,147" fill="#E0D0B0" stroke="#C8B890" stroke-width=".8"/>
+        <!-- 马眼 -->
+        <ellipse cx="176" cy="143" rx="4" ry="4.5" fill="#1A0800"/>
+        <ellipse cx="175" cy="142" rx="1.5" ry="1.5" fill="white" opacity=".6"/>
+        <!-- 马耳 -->
+        <path d="M174,136 Q176,128 180,130 Q178,136 176,138Z" fill="#E8D8B8"/>
+        <!-- 鬃毛 -->
+        <path d="M178,155 Q172,145 166,148 Q162,155 164,162" stroke="#D4BC88" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M174,160 Q166,152 160,156 Q157,163 159,170" stroke="#D4BC88" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- 马尾 -->
+        <path d="M90,234 Q72,222 66,205 Q62,190 70,180" stroke="#D4BC88" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M90,242 Q68,238 58,225 Q50,210 56,198" stroke="#C8B07A" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- 马腿 -->
+        <path d="M120,255 Q116,275 112,295 Q110,305 118,306 Q126,306 128,296 Q130,276 128,256Z" fill="#EEE4C4"/>
+        <path d="M142,258 Q140,278 138,298 Q137,308 145,308 Q153,308 153,298 Q152,278 150,258Z" fill="#EEE4C4"/>
+        <path d="M160,254 Q162,274 164,292 Q165,302 172,300 Q179,298 178,288 Q175,270 168,252Z" fill="#EEE4C4"/>
+        <!-- 前蹄高抬刨地 -->
+        <path d="M100,250 Q94,236 86,228 Q80,224 76,230 Q74,238 80,244 Q88,248 96,254Z" fill="#EEE4C4"/>
+        <path d="M76,242 Q68,238 62,244 Q60,252 68,254 Q76,256 80,250Z" fill="#D4C89A"/>
+        <!-- 蹄子印 -->
+        <ellipse cx="70" cy="295" rx="14" ry="5" fill="rgba(80,50,20,.3)"/>
+        <!-- 水花泉涌 -->
+        <ellipse cx="148" cy="325" rx="52" ry="14" fill="rgba(80,170,220,.5)"/>
+        <path d="M148,308 Q152,296 148,312 Q144,296 148,308Z" fill="rgba(80,170,220,.8)"/>
+        <path d="M136,306 Q140,294 137,308 Q133,296 136,306Z" fill="rgba(80,170,220,.6)"/>
+        <path d="M160,306 Q164,294 161,308 Q157,296 160,306Z" fill="rgba(80,170,220,.6)"/>
+        <path d="M124,320 Q130,314 148,318 Q166,322 174,316" stroke="rgba(255,255,255,.5)" stroke-width="1.5" fill="none"/>
+        <!-- 石块 -->
+        <path d="M50,340 Q72,328 100,338 Q115,348 95,355 Q68,362 50,352Z" fill="rgba(90,65,35,.4)"/>
+        <path d="M188,344 Q214,332 244,342 Q260,352 240,360 Q212,368 188,358Z" fill="rgba(90,65,35,.4)"/>
+        <!-- 杨六郎将军（右侧站立观泉）-->
+        <!-- 将军腿 -->
+        <path d="M236,316 Q234,340 233,362 Q232,370 239,370 Q246,370 246,362 Q244,340 242,316Z" fill="#8B3010"/>
+        <path d="M244,316 Q244,340 244,362 Q244,370 251,370 Q258,370 257,362 Q255,340 252,316Z" fill="#8B3010"/>
+        <!-- 将军身体（铠甲）-->
+        <path d="M228,252 Q224,270 222,295 Q220,310 232,316 Q244,320 256,316 Q266,310 264,295 Q262,270 258,252 Q250,244 244,244 Q236,244 228,252Z" fill="#C87820"/>
+        <!-- 铠甲纹 -->
+        <path d="M228,268 Q244,264 260,268" stroke="rgba(255,200,80,.5)" stroke-width="1.2" fill="none"/>
+        <path d="M226,282 Q244,278 262,282" stroke="rgba(255,200,80,.5)" stroke-width="1.2" fill="none"/>
+        <path d="M225,296 Q244,292 263,296" stroke="rgba(255,200,80,.5)" stroke-width="1.2" fill="none"/>
+        <!-- 腰带 -->
+        <rect x="224" y="306" width="38" height="7" rx="2" fill="#D4A030"/>
+        <!-- 将军左臂（指向马）-->
+        <path d="M228,262 Q210,252 196,248 Q188,248 188,256 Q188,264 196,265 Q212,264 226,270Z" fill="#C87820"/>
+        <!-- 将军右臂 -->
+        <path d="M258,258 Q268,248 276,252 Q280,258 276,264 Q268,265 258,266Z" fill="#C87820"/>
+        <!-- 将军头 -->
+        <ellipse cx="244" cy="234" rx="18" ry="20" fill="#D4A870"/>
+        <!-- 头盔 -->
+        <path d="M226,228 Q228,210 244,206 Q260,210 262,228 Q260,232 244,232 Q228,232 226,228Z" fill="#C87820"/>
+        <path d="M226,228 Q236,224 244,225 Q252,224 262,228" stroke="#FFD060" stroke-width="1.5" fill="none"/>
+        <!-- 盔顶装饰 -->
+        <path d="M244,206 Q246,196 244,190 Q242,196 244,206Z" fill="#FF4040" stroke="#CC2020" stroke-width=".5"/>
+        <!-- 将军面部 -->
+        <ellipse cx="238" cy="236" rx="2.5" ry="3" fill="#3A1A00" opacity=".8"/>
+        <ellipse cx="250" cy="236" rx="2.5" ry="3" fill="#3A1A00" opacity=".8"/>
+        <path d="M239,244 Q244,248 249,244" stroke="#5A2A10" stroke-width="1.2" fill="none"/>
+        <!-- 胡须 -->
+        <path d="M238,246 Q235,252 234,258" stroke="#4A2A10" stroke-width="1.2" fill="none" opacity=".7"/>
+        <path d="M244,248 Q244,254 244,260" stroke="#4A2A10" stroke-width="1.2" fill="none" opacity=".7"/>
+        <path d="M250,246 Q253,252 254,258" stroke="#4A2A10" stroke-width="1.2" fill="none" opacity=".7"/>
+        <!-- 标题 -->
+        <text x="150" y="46" text-anchor="middle" font-family="serif" font-size="19" fill="rgba(255,248,220,.92)" font-weight="bold" letter-spacing="5">马刨泉</text>
+        <line x1="88" y1="54" x2="212" y2="54" stroke="rgba(240,192,64,.4)" stroke-width=".8"/>
+      </svg>
+    </div></div>
+    <div class="ch-txt">
+      <div class="ch-num">Chapter 01 · 北宋边关</div>
+      <div class="ch-title">马刨泉</div>
+      <div class="ch-body">北宋年间，大将<em>杨六郎</em>奉命镇守边关，大军驻守之地水源极度匮乏，将士饮水成了一大难题。<br><br>一日，杨六郎的<em>白龙马</em>奔入山谷，奋蹄刨出一汪清泉——这便是<em>马刨泉</em>。<br><br>清冽甘甜的泉水彻底解决了驻军用水问题，杨六郎感念此泉功绩，亲自将此地定名<em>杨家井</em>。</div>
+    </div>
+  </div>
+  <div class="sep"><span>· · ·</span></div>
+
+  <!-- ── Ch2 仁宗赐姓 ── -->
+  <div class="chapter" data-ch="2">
+    <div class="ch-art"><div class="ch-frame">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="s2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#D49828"/><stop offset="45%" stop-color="#B86020"/><stop offset="100%" stop-color="#6A2008"/>
+          </linearGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#s2)"/>
+        <!-- 祥云 -->
+        <g fill="rgba(255,248,210,.2)">
+          <path d="M8,58 Q28,38 54,43 Q44,20 70,17 Q96,14 100,38 Q122,30 128,56 Q142,65 136,84 Q118,96 88,91 Q83,110 56,106 Q29,110 16,92 Q-10,89 8,58Z"/>
+        </g>
+        <!-- 宫殿背景 -->
+        <rect x="40" y="178" width="220" height="135" fill="#C07018" opacity=".8"/>
+        <!-- 主屋顶 -->
+        <path d="M22,178 Q150,116 278,178" fill="#1E5C5A"/>
+        <path d="M28,178 Q150,124 272,178" fill="#2A7878" opacity=".55"/>
+        <line x1="22" y1="178" x2="278" y2="178" stroke="#0E2E2C" stroke-width="2.5"/>
+        <circle cx="22"  cy="178" r="6" fill="#D4A020"/>
+        <circle cx="278" cy="178" r="6" fill="#D4A020"/>
+        <!-- 副楼 -->
+        <rect x="14" y="238" width="62" height="75" fill="#A86010" opacity=".7"/>
+        <rect x="224" y="238" width="62" height="75" fill="#A86010" opacity=".7"/>
+        <path d="M6,238 Q45,212 76,238"  fill="#1E5C5A" opacity=".75"/>
+        <path d="M224,238 Q255,212 294,238" fill="#1E5C5A" opacity=".75"/>
+        <!-- 台阶 -->
+        <rect x="122" y="308" width="56" height="7" rx="1" fill="#C89828" opacity=".75"/>
+        <rect x="116" y="315" width="68" height="7" rx="1" fill="#B88020" opacity=".7"/>
+        <rect x="110" y="322" width="80" height="7" rx="1" fill="#A87018" opacity=".65"/>
+        <!-- 门 -->
+        <rect x="128" y="242" width="44" height="66" rx="22" fill="#3A1200" opacity=".88"/>
+        <circle cx="140" cy="278" r="5" fill="none" stroke="#D4A020" stroke-width="2"/>
+        <circle cx="160" cy="278" r="5" fill="none" stroke="#D4A020" stroke-width="2"/>
+        <!-- 柱子 -->
+        <rect x="50"  y="178" width="14" height="135" fill="#C89020" opacity=".65"/>
+        <rect x="236" y="178" width="14" height="135" fill="#C89020" opacity=".65"/>
+        <!-- 印章 -->
+        <rect x="198" y="58" width="54" height="54" fill="rgba(155,35,53,.15)" stroke="#9B2335" stroke-width="2.5"/>
+        <rect x="202" y="62" width="46" height="46" fill="none" stroke="#9B2335" stroke-width=".7" opacity=".5"/>
+        <text x="225" y="98" text-anchor="middle" font-family="serif" font-size="30" fill="#9B2335" font-weight="900">宋</text>
+
+        <!-- ── 皇帝（居中坐于高台）── -->
+        <!-- 龙椅 -->
+        <path d="M118,240 Q118,220 150,216 Q182,220 182,240 L186,308 L114,308Z" fill="#8B4A10" opacity=".7"/>
+        <path d="M112,240 Q114,218 150,214 Q186,218 188,240" stroke="#D4A020" stroke-width="2" fill="none"/>
+        <!-- 扶手 -->
+        <rect x="108" y="244" width="16" height="40" rx="4" fill="#A06018" opacity=".8"/>
+        <rect x="176" y="244" width="16" height="40" rx="4" fill="#A06018" opacity=".8"/>
+        <!-- 皇帝袍服身体 -->
+        <path d="M122,258 Q116,278 114,302 Q128,310 150,308 Q172,310 186,302 Q184,278 178,258 Q168,248 150,248 Q132,248 122,258Z" fill="#D42020"/>
+        <!-- 龙纹 -->
+        <path d="M130,268 Q142,260 155,268 Q162,276 158,284 Q150,290 142,284 Q136,278 138,270" stroke="#FFD020" stroke-width="1.5" fill="none" opacity=".7"/>
+        <!-- 领口 -->
+        <path d="M136,260 Q150,268 164,260" stroke="#FFD020" stroke-width="2" fill="none"/>
+        <!-- 皇帝袖子 -->
+        <path d="M122,262 Q106,268 94,282 Q88,292 96,298 Q106,302 116,292 Q124,280 128,268Z" fill="#C81818"/>
+        <path d="M178,262 Q194,268 206,282 Q212,292 204,298 Q194,302 184,292 Q176,280 172,268Z" fill="#C81818"/>
+        <!-- 手捧圣旨 -->
+        <path d="M94,282 Q98,276 105,278 Q112,280 116,288 Q112,295 105,293 Q98,291 94,282Z" fill="#D4A870"/>
+        <path d="M204,282 Q200,276 193,278 Q186,280 182,288 Q186,295 193,293 Q200,291 204,282Z" fill="#D4A870"/>
+        <!-- 圣旨卷轴 -->
+        <rect x="100" y="274" width="100" height="28" rx="4" fill="#FFF8DC" stroke="#C8A020" stroke-width="1.5"/>
+        <line x1="108" y1="282" x2="192" y2="282" stroke="#9B2335" stroke-width="1" opacity=".5"/>
+        <line x1="108" y1="290" x2="180" y2="290" stroke="#9B2335" stroke-width="1" opacity=".5"/>
+        <text x="150" y="289" text-anchor="middle" font-family="serif" font-size="11" fill="#8B1A00" opacity=".7">赐姓宋氏</text>
+        <!-- 皇帝头 -->
+        <ellipse cx="150" cy="238" rx="20" ry="22" fill="#D4A870"/>
+        <!-- 皇冠 -->
+        <path d="M130,228 Q132,210 150,206 Q168,210 170,228" fill="#CC1A1A"/>
+        <path d="M130,228 Q140,222 150,224 Q160,222 170,228" stroke="#FFD020" stroke-width="2" fill="none"/>
+        <!-- 冠顶珠 -->
+        <circle cx="150" cy="206" r="5" fill="#FFD020"/>
+        <line x1="150" y1="196" x2="150" y2="206" stroke="#A08010" stroke-width="2"/>
+        <!-- 皇帝面部 -->
+        <ellipse cx="143" cy="240" rx="3" ry="3.5" fill="#2A1000" opacity=".75"/>
+        <ellipse cx="157" cy="240" rx="3" ry="3.5" fill="#2A1000" opacity=".75"/>
+        <path d="M144,249 Q150,253 156,249" stroke="#5A2A10" stroke-width="1.2" fill="none"/>
+        <!-- 胡须 -->
+        <path d="M142,252 Q138,260 136,268" stroke="#3A1A00" stroke-width="1.2" fill="none" opacity=".6"/>
+        <path d="M150,254 Q150,262 150,270" stroke="#3A1A00" stroke-width="1.2" fill="none" opacity=".6"/>
+        <path d="M158,252 Q162,260 164,268" stroke="#3A1A00" stroke-width="1.2" fill="none" opacity=".6"/>
+
+        <!-- ── 跪拜将士（左）── -->
+        <!-- 身体跪姿 -->
+        <path d="M60,318 Q56,300 58,285 Q60,272 72,268 Q84,264 90,272 Q96,280 92,295 Q88,310 84,322Z" fill="#8B3010"/>
+        <!-- 铠甲 -->
+        <path d="M58,290 Q56,278 62,272 Q72,264 84,268 Q94,272 92,284 Q90,296 82,300 Q70,302 60,296Z" fill="#C87820"/>
+        <path d="M60,280 Q72,276 86,280" stroke="rgba(255,200,60,.45)" stroke-width="1" fill="none"/>
+        <path d="M60,288 Q72,284 88,288" stroke="rgba(255,200,60,.45)" stroke-width="1" fill="none"/>
+        <!-- 低头 -->
+        <ellipse cx="74" cy="262" rx="14" ry="15" fill="#C8A070" transform="rotate(25,74,262)"/>
+        <path d="M64,258 Q68,248 76,248 Q82,250 82,256" fill="#A07840"/>
+        <!-- 手臂前伸叩拜 -->
+        <path d="M60,286 Q48,296 40,306 Q36,314 42,318 Q50,322 56,314 Q62,304 66,292Z" fill="#C07018"/>
+        <!-- 叩首双手 -->
+        <ellipse cx="40" cy="316" rx="8" ry="5" fill="#C8A070" transform="rotate(-10,40,316)"/>
+
+        <!-- ── 跪拜将士（右）── -->
+        <path d="M216,318 Q220,300 218,285 Q216,272 228,268 Q240,264 246,272 Q252,280 248,295 Q244,310 240,322Z" fill="#8B3010"/>
+        <path d="M218,290 Q216,278 222,272 Q232,264 244,268 Q254,272 252,284 Q250,296 242,300 Q230,302 220,296Z" fill="#C07820"/>
+        <path d="M220,280 Q232,276 248,280" stroke="rgba(255,200,60,.45)" stroke-width="1" fill="none"/>
+        <path d="M220,288 Q232,284 250,288" stroke="rgba(255,200,60,.45)" stroke-width="1" fill="none"/>
+        <ellipse cx="228" cy="262" rx="14" ry="15" fill="#C8A070" transform="rotate(-25,228,262)"/>
+        <path d="M218,258 Q222,248 230,248 Q236,250 236,256" fill="#A07840"/>
+        <path d="M252,286 Q264,296 272,306 Q276,314 270,318 Q262,322 256,314 Q250,304 248,292Z" fill="#C07018"/>
+        <ellipse cx="272" cy="316" rx="8" ry="5" fill="#C8A070" transform="rotate(10,272,316)"/>
+
+        <text x="150" y="50" text-anchor="middle" font-family="serif" font-size="18" fill="rgba(255,248,220,.92)" font-weight="bold" letter-spacing="4">仁宗赐姓</text>
+        <line x1="85" y1="57" x2="215" y2="57" stroke="rgba(240,192,64,.4)" stroke-width=".8"/>
+      </svg>
+    </div></div>
+    <div class="ch-txt">
+      <div class="ch-num">Chapter 02 · 仁宗御旨</div>
+      <div class="ch-title">宋姓由来</div>
+      <div class="ch-body">战场上负伤、致残的大宋将士，被杨六郎安置在马刨泉周边定居。<br><br>这些将士为国效力有功，<em>宋仁宗</em>下旨赐予众人大宋<em>国姓「宋」</em>。<br><br>久而久之，这里聚居成村，也为当地埋下了<em>宋姓世代繁衍</em>的渊源——这片土地，从此与桃树同根。</div>
+    </div>
+  </div>
+  <div class="sep"><span>· · ·</span></div>
+
+  <!-- ── Ch3 白云寺 ── -->
+  <div class="chapter" data-ch="3">
+    <div class="ch-art"><div class="ch-frame">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="s3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#C89820"/><stop offset="30%" stop-color="#E0B840"/><stop offset="65%" stop-color="#906820"/><stop offset="100%" stop-color="#502808"/>
+          </linearGradient>
+          <radialGradient id="cloudGlow" cx="50%" cy="50%"><stop offset="0%" stop-color="white" stop-opacity=".95"/><stop offset="100%" stop-color="white" stop-opacity=".55"/></radialGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#s3)"/>
+        <!-- 大白云（主题核心）-->
+        <g style="animation:floatY 5s ease-in-out infinite">
+          <ellipse cx="148" cy="72" rx="88" ry="44" fill="url(#cloudGlow)"/>
+          <ellipse cx="106" cy="86" rx="60" ry="36" fill="white" opacity=".88"/>
+          <ellipse cx="194" cy="84" rx="54" ry="32" fill="white" opacity=".85"/>
+          <ellipse cx="148" cy="104" rx="76" ry="28" fill="white" opacity=".82"/>
+          <!-- 云朵阴影层次 -->
+          <ellipse cx="148" cy="106" rx="70" ry="22" fill="rgba(220,210,180,.4)"/>
+        </g>
+        <!-- 光束 -->
+        <path d="M148,116 L144,202" stroke="rgba(255,230,120,.22)" stroke-width="10" stroke-linecap="round"/>
+        <!-- 远山 -->
+        <path d="M0,236 Q75,168 152,206 Q228,244 300,192 L300,400 L0,400Z" fill="rgba(38,96,88,.42)"/>
+        <path d="M0,275 Q95,228 195,260 L300,248 L300,400 L0,400Z" fill="rgba(30,68,58,.62)"/>
+        <!-- 松树（左右）-->
+        <g>
+          <path d="M32,274 L42,230 L52,274Z" fill="rgba(30,68,55,.82)"/>
+          <path d="M36,252 L42,220 L48,252Z" fill="rgba(30,68,55,.75)"/>
+          <line x1="42" y1="220" x2="42" y2="290" stroke="rgba(60,30,10,.5)" stroke-width="3"/>
+        </g>
+        <g>
+          <path d="M248,270 L258,226 L268,270Z" fill="rgba(30,68,55,.82)"/>
+          <path d="M252,248 L258,216 L264,248Z" fill="rgba(30,68,55,.75)"/>
+          <line x1="258" y1="216" x2="258" y2="286" stroke="rgba(60,30,10,.5)" stroke-width="3"/>
+        </g>
+        <!-- 白云寺 -->
+        <rect x="84" y="215" width="132" height="92" fill="#BE7418" opacity=".82"/>
+        <path d="M68,215 Q150,168 232,215" fill="#1A5856"/>
+        <path d="M73,215 Q150,176 227,215" fill="#267070" opacity=".52"/>
+        <line x1="68" y1="215" x2="232" y2="215" stroke="#0C2C2A" stroke-width="2"/>
+        <circle cx="68"  cy="215" r="5" fill="#C89020"/>
+        <circle cx="232" cy="215" r="5" fill="#C89020"/>
+        <rect x="92"  y="215" width="12" height="92" fill="#C08818" opacity=".62"/>
+        <rect x="196" y="215" width="12" height="92" fill="#C08818" opacity=".62"/>
+        <rect x="126" y="274" width="48" height="33" rx="24" fill="#2E0E00" opacity=".82"/>
+        <circle cx="138" cy="292" r="4" fill="none" stroke="#C89020" stroke-width="1.8"/>
+        <circle cx="162" cy="292" r="4" fill="none" stroke="#C89020" stroke-width="1.8"/>
+
+        <!-- ── 高僧人物（仰望白云）── -->
+        <!-- 僧袍下摆 -->
+        <path d="M118,360 Q116,338 114,318 Q113,308 122,304 Q134,300 140,308 Q144,318 142,340 Q140,355 138,365Z" fill="#E8E0C8"/>
+        <path d="M142,360 Q144,338 146,318 Q148,308 150,304 Q152,308 154,318 Q156,338 158,360Z" fill="#E8E0C8"/>
+        <path d="M158,360 Q160,338 162,318 Q163,308 172,304 Q180,300 186,308 Q188,318 186,340 Q184,355 182,365Z" fill="#E8E0C8"/>
+        <!-- 袍服主体 -->
+        <path d="M108,268 Q104,284 104,304 Q114,316 150,314 Q186,316 196,304 Q196,284 192,268 Q184,255 150,254 Q116,255 108,268Z" fill="#E8E0C8"/>
+        <!-- 袍服褶皱 -->
+        <path d="M122,268 Q120,286 120,304" stroke="#C8C0A0" stroke-width="1.2" fill="none"/>
+        <path d="M140,260 Q138,280 138,304" stroke="#C8C0A0" stroke-width="1.2" fill="none"/>
+        <path d="M158,260 Q160,280 160,304" stroke="#C8C0A0" stroke-width="1.2" fill="none"/>
+        <path d="M176,268 Q178,286 178,304" stroke="#C8C0A0" stroke-width="1.2" fill="none"/>
+        <!-- 腰带 -->
+        <rect x="110" y="296" width="80" height="7" rx="3" fill="#A09060"/>
+        <!-- 左袖 -->
+        <path d="M108,272 Q90,280 78,296 Q72,308 80,314 Q90,320 100,310 Q110,298 112,282Z" fill="#E0D8C0"/>
+        <path d="M82,308 Q88,302 96,308" stroke="#C0B890" stroke-width="1" fill="none" opacity=".6"/>
+        <!-- 右袖（手持锡杖）-->
+        <path d="M192,272 Q210,280 222,296 Q228,308 220,314 Q210,320 200,310 Q190,298 188,282Z" fill="#E0D8C0"/>
+        <!-- 锡杖 -->
+        <line x1="220" y1="310" x2="230" y2="360" stroke="#8B5A18" stroke-width="4" stroke-linecap="round"/>
+        <path d="M220,310 Q228,304 232,308 Q234,316 228,318" stroke="#C8A020" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- 僧人头（仰望状）-->
+        <ellipse cx="150" cy="238" rx="22" ry="24" fill="#D4A870" transform="rotate(-8,150,238)"/>
+        <!-- 光头（剃发） -->
+        <ellipse cx="150" cy="224" rx="22" ry="14" fill="#C4986A"/>
+        <!-- 面部（朝上看云）-->
+        <ellipse cx="143" cy="237" rx="3" ry="3.5" fill="#2A1000" opacity=".7" transform="rotate(-8,143,237)"/>
+        <ellipse cx="157" cy="234" rx="3" ry="3.5" fill="#2A1000" opacity=".7" transform="rotate(-8,157,234)"/>
+        <!-- 惊喜表情 -->
+        <path d="M144,246 Q150,252 156,248" stroke="#5A2A10" stroke-width="1.5" fill="none"/>
+        <!-- 眉毛上扬 -->
+        <path d="M140,231 Q144,228 148,230" stroke="#5A2A10" stroke-width="1.2" fill="none"/>
+        <path d="M152,228 Q156,226 160,228" stroke="#5A2A10" stroke-width="1.2" fill="none"/>
+        <!-- 指向云朵的手势 -->
+        <path d="M78,308 Q76,298 80,292 Q86,286 92,290 Q96,296 92,304Z" fill="#D4A870"/>
+
+        <text x="150" y="44" text-anchor="middle" font-family="serif" font-size="18" fill="rgba(255,248,220,.92)" font-weight="bold" letter-spacing="4">白云遮日</text>
+        <line x1="85" y1="51" x2="215" y2="51" stroke="rgba(240,192,64,.4)" stroke-width=".8"/>
+      </svg>
+    </div></div>
+    <div class="ch-txt">
+      <div class="ch-num">Chapter 03 · 白云降顶</div>
+      <div class="ch-title">白云寺</div>
+      <div class="ch-body">彼时，京城<em>大相国寺</em>的一位高僧云游四方，专程前来拜访杨六郎。<br><br>辞别后，高僧行至杨家井村，时值正午烈日炎炎。正当他驻足歇脚，<em>一朵白云悠然飘至头顶</em>，为他遮蔽骄阳。<br><br>高僧观此异象，认定此地灵气汇聚，留下来修建庙宇，取名<em>白云寺</em>。</div>
+    </div>
+  </div>
+  <div class="sep"><span>· · ·</span></div>
+
+  <!-- ── Ch4 转运桃 ── -->
+  <div class="chapter" data-ch="4">
+    <div class="ch-art"><div class="ch-frame">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="s4bg" cx="50%" cy="35%"><stop offset="0%" stop-color="#E0C050"/><stop offset="55%" stop-color="#C07818"/><stop offset="100%" stop-color="#602808"/></radialGradient>
+          <radialGradient id="pR" cx="40%" cy="30%"><stop offset="0%" stop-color="#FFBA88"/><stop offset="100%" stop-color="#D84828"/></radialGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#s4bg)"/>
+        <!-- 祥云 -->
+        <g fill="rgba(255,248,210,.18)">
+          <path d="M185,48 Q206,28 234,32 Q226,10 252,7 Q278,4 282,28 Q304,20 310,44 Q322,54 316,72 Q298,84 268,80 Q262,96 236,93 Q210,96 198,80 Q170,78 185,48Z"/>
+        </g>
+        <!-- 桃树（居左）-->
+        <path d="M90,395 Q94,330 96,268 Q98,215 92,170" stroke="#4A2008" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <path d="M94,258 Q68,220 44,198" stroke="#4A2008" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M95,235 Q118,198 138,178" stroke="#4A2008" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M92,278 Q58,262 36,254" stroke="#4A2008" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- 叶子 -->
+        <g fill="#267830" opacity=".88">
+          <ellipse cx="48"  cy="188" rx="20" ry="10" transform="rotate(-38,48,188)"/>
+          <ellipse cx="34"  cy="206" rx="18" ry="9"  transform="rotate(-18,34,206)"/>
+          <ellipse cx="136" cy="170" rx="20" ry="10" transform="rotate(28,136,170)"/>
+          <ellipse cx="150" cy="188" rx="17" ry="8"  transform="rotate(12,150,188)"/>
+          <ellipse cx="34"  cy="248" rx="16" ry="8"  transform="rotate(-20,34,248)"/>
+          <ellipse cx="92"  cy="162" rx="18" ry="9"  transform="rotate(0,92,162)"/>
+        </g>
+        <!-- 桃子 -->
+        <g>
+          <path d="M54,195 Q42,178 48,164 Q64,148 76,164 Q82,178 72,195 Q66,204 61,204 Q56,204 54,195Z" fill="url(#pR)"/>
+          <path d="M66,164 Q70,154 68,148" stroke="#4A2008" stroke-width="1.8" fill="none"/>
+          <path d="M56,187 Q62,176 72,176" stroke="rgba(255,255,255,.38)" stroke-width="1.2" fill="none"/>
+        </g>
+        <g>
+          <path d="M138,178 Q126,161 132,147 Q148,131 160,147 Q166,161 156,178 Q150,187 145,187 Q140,187 138,178Z" fill="url(#pR)"/>
+          <path d="M150,147 Q154,137 152,131" stroke="#4A2008" stroke-width="1.8" fill="none"/>
+        </g>
+        <g>
+          <path d="M36,256 Q24,239 30,225 Q46,209 58,225 Q64,239 54,256 Q48,265 43,265 Q38,265 36,256Z" fill="url(#pR)"/>
+          <path d="M48,225 Q52,215 50,209" stroke="#4A2008" stroke-width="1.8" fill="none"/>
+        </g>
+
+        <!-- ── 高僧（右，手捧桃盘分享）── -->
+        <!-- 袍服下摆 -->
+        <path d="M170,370 Q168,345 166,320 Q165,308 175,304 Q188,300 194,310 Q198,322 196,348 Q195,362 193,372Z" fill="#ECDFC0"/>
+        <path d="M194,370 Q196,345 198,320 Q200,308 206,304 Q214,300 218,308 Q220,320 218,346 Q217,360 215,372Z" fill="#ECDFC0"/>
+        <!-- 袍服主体 -->
+        <path d="M160,262 Q156,282 156,306 Q168,318 194,316 Q220,318 230,306 Q228,280 222,262 Q212,250 194,248 Q176,250 160,262Z" fill="#ECDFC0"/>
+        <!-- 褶皱 -->
+        <path d="M172,266 Q170,284 170,306" stroke="#C8C098" stroke-width="1.2" fill="none"/>
+        <path d="M192,254 Q190,274 190,306" stroke="#C8C098" stroke-width="1.2" fill="none"/>
+        <path d="M212,262 Q214,282 214,306" stroke="#C8C098" stroke-width="1.2" fill="none"/>
+        <!-- 腰带 -->
+        <rect x="162" y="298" width="68" height="6" rx="2" fill="#A09050"/>
+        <!-- 左袖（捧盘向前伸出）-->
+        <path d="M160,268 Q140,260 122,258 Q112,260 110,268 Q110,278 120,282 Q138,282 156,276Z" fill="#E4D8B4"/>
+        <!-- 右袖 -->
+        <path d="M222,264 Q238,256 250,258 Q260,262 260,272 Q258,282 248,284 Q234,282 220,274Z" fill="#E4D8B4"/>
+        <!-- 托盘 -->
+        <ellipse cx="122" cy="282" rx="28" ry="8" fill="#C8A040" opacity=".85"/>
+        <ellipse cx="122" cy="280" rx="24" ry="6" fill="#D4B050" opacity=".75"/>
+        <!-- 盘中桃子 -->
+        <path d="M110,278 Q108,268 114,262 Q124,254 132,262 Q136,270 130,278 Q126,284 120,284 Q114,284 110,278Z" fill="url(#pR)"/>
+        <path d="M122,260 Q124,253 122,248" stroke="#4A2008" stroke-width="1.5" fill="none"/>
+        <!-- 僧头（低头看香客）-->
+        <ellipse cx="194" cy="234" rx="20" ry="22" fill="#D0A468" transform="rotate(10,194,234)"/>
+        <ellipse cx="194" cy="220" rx="20" ry="12" fill="#C09458"/>
+        <!-- 面部（微笑低头）-->
+        <ellipse cx="187" cy="235" rx="2.8" ry="3.2" fill="#1A0800" opacity=".72"/>
+        <ellipse cx="201" cy="237" rx="2.8" ry="3.2" fill="#1A0800" opacity=".72"/>
+        <path d="M188,244 Q194,250 200,246" stroke="#5A2A10" stroke-width="1.3" fill="none"/>
+
+        <!-- ── 香客（左前，接受桃子）── -->
+        <!-- 香客腿 -->
+        <path d="M56,370 Q54,348 52,326 Q51,314 60,310 Q70,306 76,314 Q80,326 78,350 Q77,362 75,372Z" fill="#9B2335"/>
+        <path d="M76,370 Q78,348 80,326 Q82,314 88,310 Q96,306 100,314 Q102,326 100,350 Q99,362 97,372Z" fill="#9B2335"/>
+        <!-- 香客身体 -->
+        <path d="M46,264 Q42,282 42,306 Q54,318 78,316 Q102,318 112,306 Q110,280 104,264 Q94,252 78,250 Q62,252 46,264Z" fill="#C03028"/>
+        <!-- 领口装饰 -->
+        <path d="M64,266 Q78,274 92,266" stroke="#FFD040" stroke-width="1.8" fill="none"/>
+        <!-- 纹饰 -->
+        <path d="M52,278 Q66,274 84,278 Q96,282 106,278" stroke="rgba(255,208,40,.4)" stroke-width="1" fill="none"/>
+        <!-- 左袖（向前接桃）-->
+        <path d="M46,270 Q28,278 16,292 Q10,302 18,308 Q28,314 38,304 Q48,292 50,278Z" fill="#B82828"/>
+        <!-- 右袖 -->
+        <path d="M104,268 Q118,260 128,264 Q136,270 132,280 Q124,288 112,282 Q104,278 102,270Z" fill="#B82828"/>
+        <!-- 伸出的手 -->
+        <path d="M16,302 Q18,294 24,292 Q30,292 32,298 Q32,306 26,310 Q20,312 16,306Z" fill="#D4A060"/>
+        <!-- 香客头 -->
+        <ellipse cx="78" cy="238" rx="19" ry="21" fill="#D0A868"/>
+        <!-- 发髻 -->
+        <path d="M62,228 Q66,212 78,208 Q90,212 94,228" fill="#3A2010" opacity=".85"/>
+        <path d="M75,208 Q78,200 78,194" stroke="#3A2010" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <circle cx="78" cy="193" r="4" fill="#C89020"/>
+        <!-- 面部（惊喜表情）-->
+        <ellipse cx="71" cy="238" rx="2.8" ry="3.5" fill="#1A0800" opacity=".72"/>
+        <ellipse cx="85" cy="238" rx="2.8" ry="3.5" fill="#1A0800" opacity=".72"/>
+        <path d="M72,248 Q78,254 84,250" stroke="#5A2A10" stroke-width="1.3" fill="none"/>
+
+        <text x="150" y="44" text-anchor="middle" font-family="serif" font-size="18" fill="rgba(255,248,220,.92)" font-weight="bold" letter-spacing="4">灵桃福泽</text>
+        <line x1="85" y1="51" x2="215" y2="51" stroke="rgba(240,192,64,.4)" stroke-width=".8"/>
+      </svg>
+    </div></div>
+    <div class="ch-txt">
+      <div class="ch-num">Chapter 04 · 转运之桃</div>
+      <div class="ch-title">转运桃</div>
+      <div class="ch-body">寺庙落成后，院内自然长出一株<em>野生大白桃树</em>。高僧每日往返深谷，用马刨泉的泉水浇灌桃树。<br><br>泉水富含天然矿物质，滋养出的桃子<em>个头硕大、果肉饱满、口感绝佳</em>。<br><br>高僧从不独享——香客吃下桃子后，诸事顺遂，家宅兴旺。一传十，十传百，这颗灵桃被称作<em>转运桃</em>，名声传遍四方。</div>
+    </div>
+  </div>
+  <div class="sep"><span>· · ·</span></div>
+
+  <!-- ── Ch5 今人传承 ── -->
+  <div class="chapter" data-ch="5">
+    <div class="ch-art"><div class="ch-frame">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="s5sky" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#70B8CC"/><stop offset="28%" stop-color="#98D0A0"/><stop offset="58%" stop-color="#7A6030"/><stop offset="100%" stop-color="#4A2E10"/>
+          </linearGradient>
+          <radialGradient id="pR5" cx="40%" cy="30%"><stop offset="0%" stop-color="#FFBA88"/><stop offset="100%" stop-color="#D84828"/></radialGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#s5sky)"/>
+        <!-- 祥云 -->
+        <g fill="rgba(255,255,255,.22)">
+          <path d="M22,58 Q46,36 76,41 Q64,16 94,13 Q124,10 128,36 Q156,28 162,54 Q178,64 170,84 Q148,97 114,92 Q107,112 76,108 Q45,112 30,94 Q-2,91 22,58Z"/>
+        </g>
+        <!-- 磨水山远景 -->
+        <path d="M-10,236 Q75,154 152,202 Q228,250 310,182 L310,400 L-10,400Z" fill="rgba(40,92,76,.46)"/>
+        <path d="M-10,282 Q68,236 152,264 Q238,294 310,252 L310,400 L-10,400Z" fill="rgba(32,70,50,.66)"/>
+        <!-- 雾气 -->
+        <rect x="0" y="268" width="300" height="18" fill="rgba(255,248,220,.1)"/>
+        <!-- 白云寺（右后景）-->
+        <rect x="186" y="196" width="76" height="56" fill="#B06414" opacity=".72"/>
+        <path d="M177,196 Q224,170 270,196" fill="#1A5856" opacity=".82"/>
+        <line x1="177" y1="196" x2="270" y2="196" stroke="#0A2C2A" stroke-width="1.5"/>
+        <rect x="206" y="226" width="20" height="26" rx="10" fill="#2A0E00" opacity=".72"/>
+        <!-- 水井 -->
+        <rect x="198" y="296" width="34" height="26" rx="2" fill="#8A6840" opacity=".72"/>
+        <ellipse cx="215" cy="296" rx="17" ry="6" fill="rgba(60,140,190,.65)"/>
+        <rect x="195" y="284" width="40" height="8" rx="2" fill="#705028"/>
+        <line x1="215" y1="282" x2="215" y2="265" stroke="#5A3410" stroke-width="3"/>
+        <ellipse cx="215" cy="298" rx="12" ry="4" fill="rgba(100,180,220,.5)"/>
+
+        <!-- 果园桃树（背景）-->
+        <g>
+          <path d="M46,310 Q44,292 44,272" stroke="#3A1A08" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <circle cx="44" cy="262" r="20" fill="#267830" opacity=".85"/>
+          <circle cx="30" cy="270" r="15" fill="#1E6828" opacity=".8"/>
+          <circle cx="58" cy="268" r="16" fill="#2A7A30" opacity=".8"/>
+          <circle cx="44" cy="255" r="13" fill="#267030" opacity=".75"/>
+          <circle cx="44" cy="255" r="6" fill="url(#pR5)" opacity=".9"/>
+          <circle cx="30" cy="266" r="5" fill="url(#pR5)" opacity=".85"/>
+        </g>
+        <g>
+          <path d="M112,312 Q110,294 110,274" stroke="#3A1A08" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <circle cx="110" cy="264" r="19" fill="#267830" opacity=".85"/>
+          <circle cx="96"  cy="272" r="14" fill="#1E6828" opacity=".8"/>
+          <circle cx="124" cy="270" r="15" fill="#2A7A30" opacity=".8"/>
+          <circle cx="110" cy="257" r="7" fill="url(#pR5)" opacity=".9"/>
+          <circle cx="97"  cy="268" r="5" fill="url(#pR5)" opacity=".85"/>
+          <circle cx="124" cy="264" r="5.5" fill="url(#pR5)" opacity=".85"/>
+        </g>
+        <g>
+          <path d="M166,314 Q164,296 164,276" stroke="#3A1A08" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <circle cx="164" cy="266" r="18" fill="#267830" opacity=".82"/>
+          <circle cx="150" cy="274" r="13" fill="#1E6828" opacity=".78"/>
+          <circle cx="178" cy="272" r="14" fill="#2A7A30" opacity=".78"/>
+          <circle cx="164" cy="259" r="6" fill="url(#pR5)" opacity=".88"/>
+        </g>
+
+        <!-- ── 宋国民（农户形象，手持农具）── -->
+        <!-- 腿 -->
+        <path d="M82,376 Q80,354 78,332 Q77,320 86,316 Q96,312 102,320 Q106,332 104,356 Q103,368 101,378Z" fill="#4A6A30"/>
+        <path d="M104,376 Q106,354 108,332 Q110,320 118,316 Q128,312 132,320 Q134,332 132,356 Q131,368 129,378Z" fill="#4A6A30"/>
+        <!-- 布鞋 -->
+        <path d="M76,378 Q78,384 90,386 Q100,386 104,380 L102,376Z" fill="#3A2A10"/>
+        <path d="M100,378 Q102,384 114,386 Q124,386 130,380 L128,376Z" fill="#3A2A10"/>
+        <!-- 袍服主体 -->
+        <path d="M68,270 Q64,290 64,316 Q78,328 106,326 Q134,328 146,316 Q144,288 138,270 Q128,256 106,254 Q84,256 68,270Z" fill="#506838"/>
+        <!-- 布纹褶皱 -->
+        <path d="M80,274 Q78,294 78,316" stroke="#3A5228" stroke-width="1.2" fill="none"/>
+        <path d="M104,258 Q102,278 102,316" stroke="#3A5228" stroke-width="1.2" fill="none"/>
+        <path d="M128,272 Q130,292 130,316" stroke="#3A5228" stroke-width="1.2" fill="none"/>
+        <!-- 腰带 -->
+        <rect x="68" y="308" width="76" height="7" rx="3" fill="#8B6830"/>
+        <!-- 左袖（持桃）-->
+        <path d="M68,276 Q50,284 38,298 Q32,310 40,316 Q50,322 60,312 Q70,300 74,284Z" fill="#486030"/>
+        <!-- 右袖（持农具）-->
+        <path d="M138,272 Q154,264 166,268 Q174,276 170,286 Q162,294 150,288 Q140,282 136,272Z" fill="#486030"/>
+        <!-- 锄头 -->
+        <line x1="166" y1="272" x2="182" y2="350" stroke="#6A3A10" stroke-width="4" stroke-linecap="round"/>
+        <path d="M166,272 Q174,264 180,268 Q184,276 178,282 Q170,286 164,280Z" fill="#8B6030"/>
+        <!-- 托桃的手 -->
+        <path d="M38,308 Q36,298 42,294 Q50,292 54,300 Q56,310 50,316 Q44,320 38,314Z" fill="#C8A068"/>
+        <!-- 手中桃子 -->
+        <path d="M34,302 Q30,292 36,284 Q48,274 56,284 Q60,294 54,304 Q48,312 42,312 Q36,312 34,302Z" fill="url(#pR5)"/>
+        <path d="M46,282 Q50,274 48,268" stroke="#4A2008" stroke-width="1.5" fill="none"/>
+        <!-- 头 -->
+        <ellipse cx="106" cy="240" rx="22" ry="24" fill="#C8A060"/>
+        <!-- 草帽 -->
+        <ellipse cx="106" cy="225" rx="30" ry="10" fill="#C8883A" opacity=".88"/>
+        <ellipse cx="106" cy="222" rx="20" ry="7"  fill="#B87828" opacity=".82"/>
+        <!-- 帽顶 -->
+        <path d="M88,222 Q94,210 106,207 Q118,210 124,222" fill="#A06820" opacity=".8"/>
+        <!-- 面部（憨厚微笑）-->
+        <ellipse cx="99"  cy="242" rx="3" ry="3.5" fill="#1A0800" opacity=".72"/>
+        <ellipse cx="113" cy="242" rx="3" ry="3.5" fill="#1A0800" opacity=".72"/>
+        <path d="M100,252 Q106,258 112,254" stroke="#5A2A10" stroke-width="1.5" fill="none"/>
+        <!-- 笑纹 -->
+        <path d="M96,248 Q94,244 96,241" stroke="#8A5030" stroke-width="1" fill="none" opacity=".5"/>
+        <path d="M116,248 Q118,244 116,241" stroke="#8A5030" stroke-width="1" fill="none" opacity=".5"/>
+        <!-- 眉毛 -->
+        <path d="M96,236 Q100,233 104,235" stroke="#4A2810" stroke-width="1.3" fill="none"/>
+        <path d="M108,235 Q112,232 116,234" stroke="#4A2810" stroke-width="1.3" fill="none"/>
+
+        <text x="150" y="44" text-anchor="middle" font-family="serif" font-size="17" fill="rgba(255,248,220,.92)" font-weight="bold" letter-spacing="3">今人传承</text>
+        <line x1="88" y1="51" x2="212" y2="51" stroke="rgba(240,192,64,.4)" stroke-width=".8"/>
+        <text x="238" y="175" text-anchor="middle" font-family="serif" font-size="10" fill="rgba(255,248,220,.28)" letter-spacing="2">八百年后</text>
+      </svg>
+    </div></div>
+    <div class="ch-txt">
+      <div class="ch-num">Chapter 05 · 今人传承</div>
+      <div class="ch-title">宋国民·复兴桃林</div>
+      <div class="ch-body">岁月流转八百年，转运桃的传说与种桃技艺渐渐没落。<br><br>本土后人<em>宋国民</em>，宋姓传人，重拾这段历史渊源，立志复兴古法桃林。<br><br>他在<em>马刨泉旧址旁</em>开辟果园，沿用千年泉眼活水浇灌，果园毗邻<em>白云寺</em>，完整承袭古时水土与灵气。<br><br><em>一段跨越千年的传说，让这枚转运桃不只是鲜果，更是承载美好祝愿的风物。</em></div>
+    </div>
+  </div>
+
+  </div><!-- /story-stage -->
+
+  <!-- 章节导航 -->
+  <div class="ch-nav" id="chNav" style="display:none">
+    <button class="ch-prev" id="chPrev" onclick="prevChapter()">← 上一章</button>
+    <div class="ch-counter" id="chCounter">第 1 章 / 共 5 章</div>
+    <button class="ch-next" id="chNext" onclick="nextChapter()">下一章 →</button>
+  </div>
+
+  <!-- 最终CTA（第5章看完后显示）-->
+  <div class="story-cta" id="storyCta">
+    <a href="#games" class="btn-ancient">与转运桃·测缘分</a>
+  </div>
+  <div style="text-align:center"><div class="rod" style="margin-bottom:0"></div></div>
+</section>
+
+<!-- ══════════════════════════════════
+     第二屏  游戏
+══════════════════════════════════ -->
+<section id="games">
+  <div class="sec-hd">
+    <div class="sec-eyebrow">互动游戏</div>
+    <div class="sec-title">与仙桃·测缘分</div>
+    <div class="sec-sub">完成游戏积累积分，争夺蟠桃大会席位</div>
+  </div>
+  <div class="gtabs">
+    <button class="gtab act" onclick="switchG(0)">📖 桃花源试炼</button>
+    <button class="gtab"     onclick="switchG(1)">💧 高僧挑水</button>
+    <button class="gtab"     onclick="switchG(2)">🎋 广邀仙客</button>
+  </div>
+
+  <!-- 问答 -->
+  <div class="gp act" id="gp0">
+    <div class="qwrap">
+      <div id="qMain">
+        <div class="qprog">
+          <span class="qprog-t" id="qpt">第 1 题 / 共 6 题</span>
+          <span class="qchip">+<span id="qsn">0</span> 分</span>
+        </div>
+        <div class="qbar"><div class="qbar-f" id="qbf" style="width:0%"></div></div>
+        <div class="qq" id="qq"></div>
+        <div class="qopts" id="qop"></div>
+        <div class="qfb"   id="qfb"></div>
+        <button class="qnext" id="qnxt" onclick="nextQ()">下一题 →</button>
+      </div>
+      <div class="qres" id="qres">
+        <div class="qres-icon" id="qri">🍑</div>
+        <div class="qres-t">试炼完成</div>
+        <div class="qres-s" id="qrs">+0</div>
+        <div class="qres-sub">积分已入账</div>
+        <div class="qres-seal" id="qrsl">🍑 凡桃</div>
+        <button class="btn-ink" onclick="resetQ()" style="margin-top:16px">再试一次</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 挑水 -->
+  <div class="gp" id="gp1">
+    <div class="wwrap">
+      <div class="wstats">
+        <div class="wst"><strong id="wT">30</strong>秒</div>
+        <div class="wst"><strong id="wD">0</strong>/10 水滴</div>
+        <div class="wst"><strong id="wS">0</strong>分</div>
+      </div>
+      <canvas id="wCanvas" width="340" height="420"></canvas>
+      <div class="wtip" id="wTip">👆 移动手指/鼠标控制水桶，接满10滴水！</div>
+      <button class="btn-ink" id="wBtn" onclick="startWater()">开始游戏</button>
+    </div>
+  </div>
+
+  <!-- 邀请 -->
+  <div class="gp" id="gp2">
+    <div class="inv-wrap">
+      <div class="inv-info">
+        <div class="inv-t">蟠桃仙境·邀请函</div>
+        <div class="inv-s">优利康果园 · 黄金蟠桃预售</div>
+        <div style="color:rgba(250,240,220,.75);font-size:13px">你的好友邀请你来抢蟠桃大会席位</div>
+        <div class="inv-bar"><div class="inv-bar-f" id="invF" style="width:0%"></div></div>
+        <div class="inv-bar-t" id="invT">已邀请 0/3 人，邀满3人解锁 🌸 仙桃称号</div>
+      </div>
+
+      <!-- 邀请卡画布 -->
+      <canvas id="invCanvas" width="320" height="200" style="display:none;margin-bottom:14px;border:1px solid rgba(212,149,10,.3);box-shadow:3px 3px 18px rgba(26,12,4,.12);"></canvas>
+
+      <div class="inv-steps">
+        <div class="inv-step"><div class="inv-sn">1</div><div>点击「生成邀请卡」，生成你的专属国画风邀请图</div></div>
+        <div class="inv-step"><div class="inv-sn">2</div><div>长按保存图片，分享到微信好友或朋友圈</div></div>
+        <div class="inv-step"><div class="inv-sn">3</div><div>好友参与并完成问答，你获得 <strong>+20积分</strong></div></div>
+      </div>
+      <div class="inv-actions">
+        <button class="btn-ink" onclick="genInvCard()">生成专属邀请卡 🎋</button>
+        <button class="btn-ink" onclick="shareInv()">分享给好友</button>
+        <button class="btn-ghost" onclick="fakeInv()">模拟邀请+1（演示）</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     第三屏  排行榜
+══════════════════════════════════ -->
+<section id="leaderboard">
+  <div class="lb-hd">
+    <div class="live-pill"><div class="ldot"></div>实时更新</div>
+    <div class="lb-title">蟠桃大会·抢座</div>
+  </div>
+  <div class="cnt-wrap">
+    <div class="cnt-box">
+      <div class="cnt-num" id="pCnt">382</div>
+      <div class="cnt-lbl">人已抢座</div>
+    </div>
+  </div>
+  <div class="titles-g">
+    <div class="tc"><span class="tc-e">🍑</span><div class="tc-n">凡桃</div><div class="tc-c">完成问答即得</div></div>
+    <div class="tc"><span class="tc-e">🌸</span><div class="tc-n">仙桃</div><div class="tc-c">邀请满3人参与</div></div>
+    <div class="tc"><span class="tc-e">✨</span><div class="tc-n">蟠桃仙子</div><div class="tc-c">排行榜前100名</div></div>
+    <div class="tc"><span class="tc-e">👑</span><div class="tc-n">王母娘娘</div><div class="tc-c">开抢当天前10名购买（限10个）</div></div>
+  </div>
+  <div class="lb-rows-wrap">
+    <div class="lb-rows-hd"><span>排名 · 仙客</span><span>积分</span></div>
+    <div id="lbRows"></div>
+  </div>
+  <div class="priv-wrap">
+    <div class="priv">
+      <div class="priv-t">✦ 排行榜前10名·专属权益 ✦</div>
+      <div class="priv-d">提前 <strong>48小时</strong> 通过微信群收到<br><strong>限量10个尝鲜价专属链接</strong><br>先人一步，锁定最低价</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     第四屏  预售
+══════════════════════════════════ -->
+<section id="presale">
+  <div class="ps-hd">
+    <div class="ps-limit">首批限量 · 10件</div>
+    <div class="ps-title">预售信息</div>
+  </div>
+  <div class="tl">
+    <div class="tl-it">
+      <div class="tl-time">1点</div>
+      <div>
+        <div class="tl-lbl">尝鲜价 · 限量10个</div>
+        <div class="tl-desc">仅限<strong>排行榜前10名</strong>参与<br>链接于开抢前48小时<strong>通过微信群专属发送</strong><br><span class="tag-ex">排行榜前10专属</span></div>
+      </div>
+    </div>
+    <div class="tl-it">
+      <div class="tl-time">2点</div>
+      <div>
+        <div class="tl-lbl">正价钩子产品开售</div>
+        <div class="tl-desc">拼多多搜索：<strong>优利康黄金蟠桃</strong><br>山西磨水山 · 直发 · 无中间商</div>
+      </div>
+    </div>
+  </div>
+  <div class="wx-wrap">
+    <div class="wx-box">
+      <div class="wx-t">加入蟠桃仙境群</div>
+      <div class="wx-s">所有预售信息仅在群内发布</div>
+      <div class="wx-qr"><div class="wx-qr-i">💬</div><div>此处放群二维码</div></div>
+      <div class="wx-bens">
+        <div class="wx-ben">果园实时动态 · 桃子生长进度</div>
+        <div class="wx-ben">开抢时间第一时间通知</div>
+        <div class="wx-ben">排行榜前10名专属低价链接</div>
+        <div class="wx-ben">正式购买链接直发群内</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><span class="brand">优利康果园 · 山西磨水山</span><br>背靠磨水山 · 毗邻白云寺 · 千年泉水灌溉 · 宋姓传人复兴桃林<br>拼多多搜索：优利康黄金蟠桃</p>
+</footer>
+
+<script>
+// ══ 开屏粒子背景 ══
+(function(){
+  const canvas = document.getElementById('splashCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, raf;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // 粒子：金色光点 + 飘落花瓣
+  const particles = Array.from({length:80}, mkParticle);
+
+  function mkParticle(){
+    const type = Math.random() < .6 ? 'dot' : 'petal';
+    return {
+      type,
+      x: Math.random() * (W || window.innerWidth),
+      y: type === 'dot'
+         ? Math.random() * (H || window.innerHeight)
+         : -(Math.random() * 200),
+      r:     type === 'dot' ? Math.random() * 2.5 + .5 : Math.random() * 5 + 3,
+      vx:    (Math.random() - .5) * .5,
+      vy:    type === 'dot' ? (Math.random() - .5) * .4 : Math.random() * .8 + .3,
+      alpha: Math.random() * .5 + .1,
+      dA:    (Math.random() * .004 + .001) * (Math.random() < .5 ? 1 : -1),
+      rot:   Math.random() * Math.PI * 2,
+      dRot:  (Math.random() - .5) * .03,
+      color: Math.random() < .7 ? [240,192,64] : [255,144,60],
+    };
+  }
+
+  // 水墨晕染
+  const blobs = Array.from({length:5}, ()=>({
+    x: Math.random(), y: Math.random(),
+    r: .14 + Math.random() * .16,
+    vx: (Math.random()-.5)*.0006, vy: (Math.random()-.5)*.0006,
+    rgb: Math.random()<.5 ? '155,35,53' : '196,96,10',
+    ph: Math.random()*Math.PI*2,
+    t: 0,
+  }));
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0E0600'; ctx.fillRect(0,0,W,H);
+
+    // 水墨晕染
+    blobs.forEach(b=>{
+      b.t++; b.x+=b.vx; b.y+=b.vy;
+      if(b.x<0||b.x>1)b.vx*=-1; if(b.y<0||b.y>1)b.vy*=-1;
+      const pulse = .85 + .15*Math.sin(b.t*.025+b.ph);
+      const bx=b.x*W, by=b.y*H, br=b.r*Math.max(W,H)*pulse;
+      const g=ctx.createRadialGradient(bx,by,0,bx,by,br);
+      g.addColorStop(0,`rgba(${b.rgb},.13)`); g.addColorStop(1,`rgba(${b.rgb},0)`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(bx,by,br,0,Math.PI*2); ctx.fill();
+    });
+
+    // 粒子
+    particles.forEach((p,i)=>{
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.rot+= p.dRot;
+      p.alpha += p.dA;
+      if(p.alpha<=.05||p.alpha>=.7) p.dA*=-1;
+      if(p.y > H+20){ const np=mkParticle(); np.y=-10; np.type='petal'; Object.assign(p,np); }
+
+      const [r,g,b]=p.color;
+      if(p.type==='dot'){
+        ctx.globalAlpha=p.alpha;
+        ctx.fillStyle=`rgb(${r},${g},${b})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        const gl=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
+        gl.addColorStop(0,`rgba(${r},${g},${b},.14)`); gl.addColorStop(1,`rgba(${r},${g},${b},0)`);
+        ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2); ctx.fill();
+      } else {
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        ctx.globalAlpha=p.alpha*.7;
+        ctx.fillStyle=`rgba(${r},${g},${b},1)`;
+        ctx.beginPath(); ctx.ellipse(0,-p.r*.5,p.r*.4,p.r,0,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+    });
+    ctx.globalAlpha=1;
+    raf=requestAnimationFrame(frame);
+  }
+
+  frame();
+  window._stopSplash=()=>{ cancelAnimationFrame(raf); window.removeEventListener('resize',resize); };
+})();
+
+let _splashClosed = false;
+function closeSplash(){
+  if(_splashClosed) return;
+  _splashClosed = true;
+  const el = document.getElementById('splash');
+  if(!el) return;
+  el.style.pointerEvents = 'none';
+  el.classList.add('exit');
+  setTimeout(()=>{
+    el.style.display = 'none';
+    if(window._stopSplash) window._stopSplash();
+  }, 820);
+}
+setTimeout(closeSplash, 5500);
+
+// ── 章节滚动显示 ──
+const chIO = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('.chapter').forEach(c => chIO.observe(c));
+
+// ── 状态 ──
+let pts   = parseInt(localStorage.getItem('zyt_s')||'0');
+let bdgs  = JSON.parse(localStorage.getItem('zyt_b')||'[]');
+let invs  = parseInt(localStorage.getItem('zyt_i')||'0');
+let qDone = localStorage.getItem('zyt_qd')==='1';
+let wPlay = parseInt(localStorage.getItem('zyt_wp')||'0');
+
+function save(){
+  localStorage.setItem('zyt_s',pts);
+  localStorage.setItem('zyt_b',JSON.stringify(bdgs));
+  localStorage.setItem('zyt_i',invs);
+  localStorage.setItem('zyt_qd',qDone?'1':'0');
+  localStorage.setItem('zyt_wp',wPlay);
+}
+function addPts(n){pts+=n;document.getElementById('ptsNum').textContent=pts;save();renderLB();}
+function badge(b){if(!bdgs.includes(b)){bdgs.push(b);save();setTimeout(()=>alert('🎉 称号解锁：'+b),300);}}
+function pop(n){
+  const d=document.createElement('div');d.className='spop';d.textContent='+'+n;
+  d.style.left=Math.random()*60+20+'%';d.style.top='40%';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),900);
+}
+
+// 章节由翻章系统控制，不再用滚动触发
+
+// ── 游戏标签 ──
+function switchG(i){
+  document.querySelectorAll('.gtab').forEach((t,j)=>t.classList.toggle('act',i===j));
+  document.querySelectorAll('.gp').forEach((p,j)=>p.classList.toggle('act',i===j));
+}
+
+// ── 问答 ──
+const QS=[
+  {q:"杨家井的泉水（马刨泉）是怎么来的？",o:["杨六郎命士兵挖掘","白龙马奔入山谷奋蹄刨出","高僧祈雨所得","天然山泉自涌"],a:1,fb:"杨六郎的白龙马奔入山谷奋蹄刨出清泉，杨六郎感念此泉，亲定名「杨家井」。"},
+  {q:"白云寺名字的由来是？",o:["寺庙建在云雾山顶","高僧云游至此，白云降顶为他遮日","宋仁宗皇帝御赐寺名","寺内种有大片白色桃花"],a:1,fb:"高僧在杨家井村歇脚时，白云飘至头顶遮日，高僧认定此地灵气汇聚，遂建寺取名「白云寺」。"},
+  {q:"「转运桃」的名声是怎么传开的？",o:["皇帝御封为贡品","高僧广发告示宣传","香客吃后诸事顺遂，口耳相传","杨六郎进贡朝廷"],a:2,fb:"高僧将桃子分送香客，吃下后诸事顺遂、家宅兴旺，一传十十传百，「转运桃」之名由此而来。"},
+  {q:"磨水山的桃为什么糖分特别高？",o:["施用了特殊甜味肥料","昼夜温差大，糖分慢慢积累","特殊品种基因决定","日照时间极短"],a:1,fb:"磨水山昼夜温差大，白天积累糖分，夜间低温减少消耗，糖分就一点一点积攒起来。"},
+  {q:"果园给桃子浇的是什么水？",o:["净化处理的自来水","从地底抽上来的山间井水，未经任何处理","专门收集的山地雨水","从山顶引下的地表溪水"],a:1,fb:"果园深挖水井，沿用千年泉眼，从地底抽取的井水富含天然矿物质，干净且未经处理。"},
+  {q:"为什么红皮红瓤的黄金蟠桃特别稀罕？",o:["需要专业嫁接技术","很多地方的土壤养不出来，需土好水好山好","只有百年老树才会结","需要特定人工干预才能显色"],a:1,fb:"红皮红瓤对生长环境要求极高，磨水山土好水好山好，加充足光照，才能养出这个珍贵品相。"}
+];
+let qi=0,qs=0;
+
+function renderQ(){
+  const q=QS[qi];
+  document.getElementById('qpt').textContent=`第 ${qi+1} 题 / 共 ${QS.length} 题`;
+  document.getElementById('qbf').style.width=(qi/QS.length*100)+'%';
+  document.getElementById('qq').textContent=q.q;
+  const op=document.getElementById('qop');op.innerHTML='';
+  q.o.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='qo';
+    b.textContent=['A','B','C','D'][i]+'. '+o;
+    b.onclick=()=>pickQ(i,b);op.appendChild(b);
+  });
+  document.getElementById('qfb').classList.remove('show');
+  document.getElementById('qnxt').classList.remove('show');
+}
+
+function pickQ(i,btn){
+  const q=QS[qi];
+  document.querySelectorAll('.qo').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qfb'),nx=document.getElementById('qnxt');
+  if(i===q.a){
+    btn.classList.add('ok');qs+=2;document.getElementById('qsn').textContent=qs;
+    fb.className='qfb show ok';fb.textContent='✓ 答对了！'+q.fb;pop(2);
+  }else{
+    btn.classList.add('err');document.querySelectorAll('.qo')[q.a].classList.add('ok');
+    fb.className='qfb show err';fb.textContent='✗ 答错了。'+q.fb;
+  }
+  nx.textContent=qi<QS.length-1?'下一题 →':'查看结果 →';nx.classList.add('show');
+}
+
+function nextQ(){qi++;qi>=QS.length?showQRes():renderQ();}
+
+function showQRes(){
+  if(qs===12)qs+=4;
+  document.getElementById('qMain').style.display='none';
+  document.getElementById('qres').classList.add('show');
+  document.getElementById('qrs').textContent='+'+qs+' 分';
+  document.getElementById('qri').textContent=['😅','🍑','🌸','✨','👑'][Math.min(Math.floor(qs/4),4)];
+  if(!qDone){addPts(qs);qDone=true;save();}
+  badge('🍑 凡桃');
+  document.getElementById('qrsl').textContent='🍑 凡桃 · 已解锁';
+}
+function resetQ(){qi=0;qs=0;qDone=false;save();document.getElementById('qMain').style.display='block';document.getElementById('qres').classList.remove('show');document.getElementById('qsn').textContent=0;renderQ();}
+
+// ── 挑水游戏 ──
+const WC=document.getElementById('wCanvas'),WX=WC.getContext('2d');
+const WTIPS=['💧 这口井的水，矿物质天然丰富——这是桃子甜的秘密之一','🍑 昼夜温差大，虫卵难以存活，每颗桃单独套纸袋，长得更周正','🌿 农家肥、还田的草——土保持原来的样子，桃吃进去的都是干净的东西','⛰️ 坡地排水顺畅，从不积涝，大自然先给了七分好味道','✂️ 每年修剪疏花疏果，让阳光照进来，每颗桃都长得周正'];
+let W={run:false,bx:170,drops:[],stones:[],t:30,ct:0,gs:0,ti:null,di:null};
+
+function startWater(){
+  if(wPlay>=3){document.getElementById('wTip').textContent='今日3次已用完，明天再来！';return;}
+  Object.assign(W,{run:true,bx:170,drops:[],stones:[],t:30,ct:0,gs:0});
+  document.getElementById('wBtn').style.display='none';
+  W.ti=setInterval(()=>{W.t--;document.getElementById('wT').textContent=W.t;if(W.t<=0)endWater();},1000);
+  W.di=setInterval(()=>{if(!W.run)return;W.drops.push({x:Math.random()*300+20,y:0,v:3+Math.random()*2});if(Math.random()<.35)W.stones.push({x:Math.random()*300+20,y:0,v:2+Math.random()*2});},800);
+  WC.addEventListener('mousemove',wM);WC.addEventListener('touchmove',wT,{passive:false});
+  wLoop();
+}
+function wM(e){const r=WC.getBoundingClientRect();W.bx=e.clientX-r.left-30;wC();}
+function wT(e){e.preventDefault();const r=WC.getBoundingClientRect();W.bx=e.touches[0].clientX-r.left-30;wC();}
+function wC(){W.bx=Math.max(0,Math.min(WC.width-60,W.bx));}
+
+function wLoop(){
+  if(!W.run)return;
+  WX.clearRect(0,0,WC.width,WC.height);
+  // 背景 - 工笔风
+  const bg=WX.createLinearGradient(0,0,0,WC.height);
+  bg.addColorStop(0,'#C87020');bg.addColorStop(.5,'#E89030');bg.addColorStop(.7,'#8B5530');bg.addColorStop(1,'#5C2A10');
+  WX.fillStyle=bg;WX.fillRect(0,0,WC.width,WC.height);
+  // 祥云
+  WX.fillStyle='rgba(255,255,255,.14)';
+  WX.beginPath();WX.ellipse(80,60,55,28,0,0,Math.PI*2);WX.fill();
+  WX.beginPath();WX.ellipse(55,72,35,20,0,0,Math.PI*2);WX.fill();
+  WX.beginPath();WX.ellipse(108,70,30,18,0,0,Math.PI*2);WX.fill();
+  WX.beginPath();WX.ellipse(240,50,45,22,0,0,Math.PI*2);WX.fill();
+  WX.beginPath();WX.ellipse(215,62,28,16,0,0,Math.PI*2);WX.fill();
+  // 远山
+  WX.fillStyle='rgba(46,107,106,.35)';
+  WX.beginPath();WX.moveTo(0,260);WX.quadraticCurveTo(80,200,150,235);WX.quadraticCurveTo(220,270,340,225);WX.lineTo(340,420);WX.lineTo(0,420);WX.fill();
+  // 寺庙
+  WX.fillStyle='rgba(200,120,32,.6)';WX.fillRect(228,195,68,60);
+  WX.fillStyle='rgba(46,107,106,.7)';WX.beginPath();WX.moveTo(220,195);WX.quadraticCurveTo(262,172,304,195);WX.fill();
+  // 水桶
+  WX.fillStyle='#8B4513';WX.strokeStyle='#4A1A00';WX.lineWidth=2;
+  WX.beginPath();WX.moveTo(W.bx+5,372);WX.lineTo(W.bx+55,372);WX.lineTo(W.bx+60,400);WX.lineTo(W.bx,400);WX.closePath();WX.fill();WX.stroke();
+  const fl=W.ct/10;WX.fillStyle='rgba(80,160,220,.65)';WX.fillRect(W.bx+3,400-fl*24,54,fl*24);
+  WX.strokeStyle='rgba(255,200,80,.5)';WX.lineWidth=1;
+  [.3,.6,.85].forEach(y=>{WX.beginPath();WX.moveTo(W.bx+2,372+28*y);WX.lineTo(W.bx+58,372+28*y);WX.stroke();});
+  // 水滴
+  W.drops.forEach((d,i)=>{
+    d.y+=d.v;
+    WX.fillStyle='#5AAAE0';WX.beginPath();WX.arc(d.x,d.y,7,0,Math.PI*2);WX.fill();
+    WX.fillStyle='rgba(255,255,255,.5)';WX.beginPath();WX.arc(d.x-2,d.y-2,2,0,Math.PI*2);WX.fill();
+    if(d.y+7>=372&&d.y-7<=400&&d.x>=W.bx&&d.x<=W.bx+60){W.drops.splice(i,1);W.ct=Math.min(10,W.ct+1);W.gs+=2;document.getElementById('wD').textContent=W.ct;document.getElementById('wS').textContent=W.gs;document.getElementById('wTip').textContent=WTIPS[Math.floor(Math.random()*WTIPS.length)];}
+    if(d.y>WC.height)W.drops.splice(i,1);
+  });
+  // 石头
+  W.stones.forEach((s,i)=>{
+    s.y+=s.v;
+    WX.fillStyle='#8A8070';WX.beginPath();WX.arc(s.x,s.y,9,0,Math.PI*2);WX.fill();
+    WX.fillStyle='rgba(255,255,255,.2)';WX.beginPath();WX.arc(s.x-3,s.y-3,3,0,Math.PI*2);WX.fill();
+    if(s.y+9>=372&&s.y-9<=400&&s.x>=W.bx-5&&s.x<=W.bx+65){W.stones.splice(i,1);if(W.ct>0)W.ct--;document.getElementById('wD').textContent=W.ct;document.getElementById('wTip').textContent='💥 被石头砸到了，水洒了一些…';}
+    if(s.y>WC.height)W.stones.splice(i,1);
+  });
+  if(W.ct>=10)endWater(true);else requestAnimationFrame(wLoop);
+}
+
+function endWater(ok){
+  W.run=false;clearInterval(W.ti);clearInterval(W.di);
+  WC.removeEventListener('mousemove',wM);WC.removeEventListener('touchmove',wT);
+  const total=W.gs+(ok?15:5);
+  if(wPlay<3){addPts(total);wPlay++;save();}
+  document.getElementById('wTip').textContent=ok?'🎉 满桶送达！获得 +'+total+' 积分！':'⏰ 时间到！获得 +'+total+' 积分';
+  const btn=document.getElementById('wBtn');btn.style.display='inline-block';
+  btn.textContent=wPlay>=3?'今日已达3次上限':'再玩一次（剩余'+(3-wPlay)+'次）';
+  document.getElementById('wT').textContent=30;
+}
+
+// ── 邀请卡生成 ──
+function genInvCard(){
+  const cv=document.getElementById('invCanvas');
+  const cx=cv.getContext('2d');
+  cv.style.display='block';
+  cv.style.margin='0 auto 14px';
+
+  const w=320,h=200;
+  // 底色
+  const bg=cx.createLinearGradient(0,0,w,h);
+  bg.addColorStop(0,'#7B1A28');bg.addColorStop(.5,'#9B2335');bg.addColorStop(1,'#7B1A28');
+  cx.fillStyle=bg;cx.fillRect(0,0,w,h);
+
+  // 祥云纹
+  cx.fillStyle='rgba(255,255,255,.07)';
+  function cloud(x,y,r){cx.beginPath();cx.arc(x,y,r,0,Math.PI*2);cx.fill();}
+  cloud(30,30,25);cloud(10,38,18);cloud(52,38,18);
+  cloud(w-30,h-30,25);cloud(w-10,h-38,18);cloud(w-52,h-38,18);
+
+  // 金边
+  cx.strokeStyle='rgba(212,149,10,.5)';cx.lineWidth=1.5;cx.strokeRect(8,8,w-16,h-16);
+  cx.strokeStyle='rgba(212,149,10,.25)';cx.lineWidth=.8;cx.strokeRect(12,12,w-24,h-24);
+
+  // 主标题
+  cx.fillStyle='#F0C040';cx.font='900 22px "Noto Serif SC",serif';cx.textAlign='center';
+  cx.fillText('转运桃·千年记',w/2,52);
+
+  // 副标题
+  cx.fillStyle='rgba(250,240,220,.65)';cx.font='11px "Noto Serif SC",serif';
+  cx.fillText('优利康果园 · 山西磨水山 · 白云寺旁',w/2,74);
+
+  // 分隔
+  cx.strokeStyle='rgba(212,149,10,.35)';cx.lineWidth=.8;
+  cx.beginPath();cx.moveTo(40,84);cx.lineTo(w-40,84);cx.stroke();
+
+  // 正文
+  cx.fillStyle='rgba(250,240,220,.85)';cx.font='13px "Noto Serif SC",serif';
+  cx.fillText('邀你加入蟠桃大会，',w/2,108);
+  cx.fillText('抢先获得限量尝鲜价资格',w/2,128);
+
+  // 桃子装饰
+  cx.font='28px serif';cx.fillText('🍑',50,130);cx.fillText('🍑',w-50,130);
+
+  // 底部信息
+  cx.strokeStyle='rgba(212,149,10,.35)';cx.beginPath();cx.moveTo(40,148);cx.lineTo(w-40,148);cx.stroke();
+  cx.fillStyle='rgba(250,240,220,.5)';cx.font='10px "Noto Serif SC",serif';
+  cx.fillText('首批限量10件 · 拼多多搜索：优利康黄金蟠桃',w/2,166);
+  cx.fillStyle='rgba(212,149,10,.7)';cx.font='10px serif';
+  cx.fillText('扫码进群 · 第一时间收到购买链接',w/2,184);
+}
+
+function shareInv(){
+  const cv=document.getElementById('invCanvas');
+  if(cv.style.display==='none'){genInvCard();}
+  const url=location.href.split('?')[0]+'?ref='+Date.now();
+  const txt='我在蟠桃仙境抢到了座位！来自山西磨水山、白云寺旁的千年转运桃即将开售，一起来测缘分 👉 '+url;
+  if(navigator.share){navigator.share({title:'转运桃·千年记',text:txt,url});}
+  else{navigator.clipboard.writeText(txt).then(()=>alert('✅ 邀请内容已复制到剪贴板，去粘贴分享给好友吧！')).catch(()=>prompt('复制此内容发给好友：',txt));}
+}
+
+function fakeInv(){
+  invs++;localStorage.setItem('zyt_i',invs);
+  document.getElementById('invF').style.width=Math.min(invs/3*100,100)+'%';
+  document.getElementById('invT').textContent=`已邀请 ${invs}/3 人，邀满3人解锁 🌸 仙桃称号`;
+  addPts(20);pop(20);
+  if(invs>=3)badge('🌸 仙桃');
+}
+
+// ── 排行榜 ──
+const DEMO=[
+  {n:'仙客·桃花缘',s:156,b:'✨'},{n:'磨水山人',s:134,b:'🌸'},
+  {n:'白云寺香客',s:128,b:'🌸'},{n:'转运仙子',s:112,b:'🌸'},
+  {n:'杨家井守护者',s:96,b:'🍑'},{n:'蟠桃爱好者',s:88,b:'🍑'},
+  {n:'北宋遗风',s:76,b:'🍑'},{n:'灵桃有缘人',s:68,b:'🍑'},
+  {n:'山间清泉客',s:54,b:'🍑'},{n:'宋朝旧梦',s:42,b:'🍑'},
+];
+function renderLB(){
+  let list=[...DEMO];
+  if(pts>0)list.push({n:'你',s:pts,b:bdgs.length?bdgs[bdgs.length-1][0]:'🍑',me:true});
+  list.sort((a,b)=>b.s-a.s);
+  const el=document.getElementById('lbRows');el.innerHTML='';
+  list.slice(0,10).forEach((u,i)=>{
+    const rc=i===0?'r1':i===1?'r2':i===2?'r3':'rn';
+    const row=document.createElement('div');
+    row.className='lb-row'+(i<3||u.me?' hi':'');
+    row.innerHTML=`<div class="lb-rn ${rc}">${i+1}</div><div class="lb-nm"><span class="lb-bi">${u.b}</span>${u.n}${u.me?' <small style="color:var(--gold2);font-size:10px">(你)</small>':''}</div><div class="lb-pts">${u.s}</div>`;
+    el.appendChild(row);
+  });
+}
+
+// ── 人数动态 ──
+let cnt=382;
+setInterval(()=>{if(Math.random()<.25){cnt+=Math.ceil(Math.random()*2);document.getElementById('pCnt').textContent=cnt;}},3200);
+
+// ── 初始化 ──
+document.getElementById('ptsNum').textContent=pts;
+document.getElementById('invF').style.width=Math.min(invs/3*100,100)+'%';
+document.getElementById('invT').textContent=`已邀请 ${invs}/3 人，邀满3人解锁 🌸 仙桃称号`;
+renderQ();renderLB();
+</script>
+</body>
+</html>
